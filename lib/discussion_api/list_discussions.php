@@ -19,32 +19,32 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-//Discussion API \ List all discussions
-//http://docs.oneall.com/api/resources/discussions/list-all-discussions/
+// Discussion API \ List all discussions
+// http://docs.oneall.com/api/resources/discussions/list-all-discussions/
 
-//The page to retrieve
+// The page to retrieve
 $page = 1;
 
-//Entries per page
+// Entries per page
 $entries_per_page = 150;
 
-//Newest first
+// Newest first
 $order_direction = 'desc';
 
-//Make Request
-$oneall_curly->get (SITE_DOMAIN . "/discussions.json?page=".$page."&entries_per_page=".$entries_per_page."&order_direction=".$order_direction);
+// Make Request
+$oneall_curly->get (SITE_DOMAIN . "/discussions.json?page=" . $page . "&entries_per_page=" . $entries_per_page . "&order_direction=" . $order_direction);
 $result = $oneall_curly->get_result ();
 
-//Success
+// Success
 if ($result->http_code == 200)
 {
-	echo "<h1>Success ".$result->http_code."</h1>";
+	echo "<h1>Success " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-//Error
+// Error
 else
 {
-	echo "<h1>Error ".$result->http_code."</h1>";
+	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
 ?>
