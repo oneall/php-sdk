@@ -16,18 +16,52 @@
  *
  */
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// REPLACE WITH YOUR OWN ONEALL API CREDENTIALS
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-define ('SITE_SUBDOMAIN', 'subdomain');
-define ('SITE_PUBLIC_KEY', 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
-define ('SITE_PRIVATE_KEY', 'yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy');
-
-// OneAll Domain
-define ('SITE_DOMAIN', 'https://' . SITE_SUBDOMAIN . '.api.oneall.com');
-
 // Current folder
 $current_folder = realpath (dirname (__FILE__));
+
+// Read configuration
+$config = parse_ini_file ($current_folder . "/../config.ini", true);
+
+// Select environment
+$environment = (isset ($config ['environment']) ? trim ($config ['environment']) : null);
+if (empty ($environment))
+{
+	die ("The environment needs to be set in the config.ini file");
+}
+
+// Read environment settings
+$settings = (isset ($config [$environment]) ? $config [$environment] : null);
+if (! is_array ($config [$environment]))
+{
+	die ("The environment [" . $environment . "] is not setup, please check the config.ini file");
+}
+
+// Site subdomain
+$site_subdomain = (isset ($settings ['oneall_site_subdomain']) ? trim ($settings ['oneall_site_subdomain']) : null);
+if (empty ($site_subdomain))
+{
+	die ("The [oneall_site_subdomain] is not setup for the environment [" . $environment . "], please check the config.ini file");
+}
+
+// Site private key
+$site_private_key = (isset ($settings ['oneall_site_private_key']) ? trim ($settings ['oneall_site_private_key']) : null);
+if (empty ($site_private_key))
+{
+	die ("The [oneall_site_private_key] is not setup for the environment [" . $environment . "], please check the config.ini file");
+}
+
+// Site public key
+$site_public_key = (isset ($settings ['oneall_site_public_key']) ? trim ($settings ['oneall_site_public_key']) : null);
+if (empty ($site_public_key))
+{
+	die ("The [oneall_site_public_key] is not setup for the environment [" . $environment . "], please check the config.ini file");
+}
+
+// Constants
+define ('SITE_SUBDOMAIN', $site_subdomain);
+define ('SITE_DOMAIN', 'https://' . $site_subdomain . '.api.oneall.com');
+define ('SITE_PUBLIC_KEY', $site_public_key);
+define ('SITE_PRIVATE_KEY', $site_private_key);
 
 // HTTP Transfer Handler
 require $current_folder . '/includes/oneall_curly.php';
