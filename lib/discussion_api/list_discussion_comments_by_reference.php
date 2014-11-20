@@ -23,7 +23,7 @@ include '../assets/config.php';
 // http://docs.oneall.com/api/resources/discussions/list-all-discussions/
 
 // Comments for this discussion
-$discussion_reference = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+$discussion_reference = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1';
 
 // The page to retrieve
 $page = 1;
