@@ -19,8 +19,8 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// Read the details on an identity
-// http://docs.oneall.com/api/resources/sso//read-sso-session-details/
+// Documentation
+// http://docs.oneall.com/api/resources/sso/read-sso-session-details/
 
 // Get the details of this SSO session
 $sso_session_token = '718b57a0-ef30-491c-9e55-8fb92ca2c464';
@@ -29,6 +29,7 @@ $sso_session_token = '718b57a0-ef30-491c-9e55-8fb92ca2c464';
 $oneall_curly->get (SITE_DOMAIN . "/sso/sessions/" . $sso_session_token . ".json");
 $result = $oneall_curly->get_result ();
 
+// Success
 if ($result->http_code == 200)
 {
 	echo "<h1>Success " . $result->http_code . "</h1>";
