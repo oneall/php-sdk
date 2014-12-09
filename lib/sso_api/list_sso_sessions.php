@@ -19,29 +19,29 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-//SSO API \ List all SSO sessions
-//http://docs.oneall.loc/api/resources/sso/list-all-sessions/
+// SSO API \ List all SSO sessions
+// http://docs.oneall.loc/api/resources/sso/list-all-sessions/
 
-//The page to retrieve
+// The page to retrieve
 $page = 1;
 
-//Newest first
+// Newest first
 $order_direction = 'desc';
 
-//Make Request
+// Make Request
 $oneall_curly->get (SITE_DOMAIN . "/sso/sessions.json?page=" . $page . "&order_direction=" . $order_direction);
 $result = $oneall_curly->get_result ();
 
-//Success
+// Success
 if ($result->http_code == 200)
 {
-	echo "<h1>Success ".$result->http_code."</h1>";
+	echo "<h1>Success " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-//Error
+// Error
 else
 {
-	echo "<h1>Error ".$result->http_code."</h1>";
+	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
 
