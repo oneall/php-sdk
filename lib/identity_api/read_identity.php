@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2015 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -29,6 +29,7 @@ $identity_token = 'a0c1665a-7631-4539-ac9c-b138a37354f7';
 $oneall_curly->get (SITE_DOMAIN . "/identities/" . $identity_token . ".json");
 $result = $oneall_curly->get_result ();
 
+// Success
 if ($result->http_code == 200)
 {
 	echo "<h1>Success " . $result->http_code . "</h1>";

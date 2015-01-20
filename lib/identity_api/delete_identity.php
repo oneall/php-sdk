@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2015 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,26 +19,26 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-//Delete an identity
-//http://docs.oneall.com/api/resources/identities/delete-identity/
+// Delete an identity
+// http://docs.oneall.com/api/resources/identities/delete-identity/
 
-//The identity to delete
+// The identity to delete
 $identity_token = '81d76350-dd10-450b-b895-c05c9c815fc0';
 
-//Make Request
+// Make Request
 $oneall_curly->delete (SITE_DOMAIN . "/identities/" . $identity_token . ".json?confirm_deletion=true");
 $result = $oneall_curly->get_result ();
 
-//Success
+// Success
 if ($result->http_code == 200)
 {
-	echo "<h1>Success ".$result->http_code."</h1>";
+	echo "<h1>Success " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-//Error
+// Error
 else
 {
-	echo "<h1>Error ".$result->http_code."</h1>";
+	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
 

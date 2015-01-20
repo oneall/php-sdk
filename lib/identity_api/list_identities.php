@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2015 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -20,7 +20,7 @@
 include '../assets/config.php';
 
 // List all identities
-// http://docs.oneall.com/api/resources/identitites/list-all-identities/
+// http://docs.oneall.com/api/resources/identities/list-all-identities/
 
 // The page to retrieve
 $page = 1;
