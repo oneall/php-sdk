@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2015 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,23 +19,23 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-//List all users
-//http://docs.oneall.com/api/resources/site/providers/list-all-providers/
+// List all users
+// http://docs.oneall.com/api/resources/providers/list-all-providers/
 
-//Make Request
+// Make Request
 $oneall_curly->get (SITE_DOMAIN . "/providers.json");
 $result = $oneall_curly->get_result ();
 
-//Success
+// Success
 if ($result->http_code == 200)
 {
-	echo "<h1>Success ".$result->http_code."</h1>";
+	echo "<h1>Success " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-//Error
+// Error
 else
 {
-	echo "<h1>Error ".$result->http_code."</h1>";
+	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
 
