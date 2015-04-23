@@ -29,14 +29,18 @@ include '../assets/config.php';
 
 // Twitter
 $provider_key = 'twitter';
-$provider_access_token_key = '<replace_by_your_access_token>';
-$provider_access_token_secret = '<replace_by_your_access_token_secret>';
+$provider_access_token_key = ''; // Insert the access token> (Required)
+$provider_access_token_secret = ''; // Insert the access token secret (Required)
+
+//User
+$user_token = ''; // Link the social network profile to this user_token (Optional)
 
 // Message Structure
 $structure = array (
 	'request' => array (
 		'user' => array (
 			'action' => 'import_from_access_token',
+			'user_token' => $user_token,
 			'identity' => array (
 				'source' => array (
 					'key' => $provider_key,
