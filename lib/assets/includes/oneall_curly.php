@@ -112,7 +112,7 @@ class oneall_curly
 		$this->result->header_parts = $this->explode_header ($header);
 		$this->result->headers = $headers;
 		$this->result->header_size = $header_size;
-		$this->result->body = stripslashes ($body);
+		$this->result->body = $body;
 	}
 
 	// Return the result
