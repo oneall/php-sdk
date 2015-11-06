@@ -32,7 +32,7 @@ class oneall_curly
 	public function __construct ($options = array ())
 	{
 		// Default Options
-		$this->set_option ('USERAGENT', 'Mozilla/5.0 (OneAll Curly) Gecko/20080311 Firefox/2.0.0.13');
+		$this->set_option ('USERAGENT', 'PHP SDK 1.0');
 		$this->set_option ('TIMEOUT', 125);
 		$this->set_option ('CONNECTTIMEOUT', 125);
 		$this->set_option ('SSL_VERIFYPEER', 0);
