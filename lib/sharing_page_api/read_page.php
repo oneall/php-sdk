@@ -19,17 +19,14 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// List all shared pages
-// https://docs.oneall.com/api/resources/sharing/pages/list-all-pages/
+// Get the details of a shared page
+// http://docs.oneall.com/api/resources/sharing/pages/list-all-pages/
 
-// The page to retrieve
-$page = 1;
-
-// Newest first
-$order_direction = 'desc';
+// Page Token
+$sharing_page_token = '3df50910-940a-4cb5-8c11-a69a09bf805d';
 
 // Make Request
-$oneall_curly->get (SITE_DOMAIN . "/sharing/pages.json?page=" . $page . "&order_direction=" . $order_direction);
+$oneall_curly->get (SITE_DOMAIN . "/sharing/pages/" . $sharing_page_token . ".json?entries_per_page=10");
 $result = $oneall_curly->get_result ();
 
 // Success
