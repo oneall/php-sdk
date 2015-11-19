@@ -27,7 +27,7 @@ $structure = array(
 	'request' => array(
 		'user' => array(
 			'externalid' => 100000002,
-			'login' => 'john',
+			'login' => 'johnny',
 			'password' => 'iaaU3WA6kFlR' 
 		) 
 	)
