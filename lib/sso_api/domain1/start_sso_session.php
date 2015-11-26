@@ -55,7 +55,7 @@ if ($result->http_code == 201)
 {
 	// Read the result
 	$body = json_decode ($result->body);
-	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";exit;
+
 	// Extract the SSO session token
 	$sso_session_token = $body->response->result->data->sso_session->sso_session_token;
 	
