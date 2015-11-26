@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2015 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,25 +19,24 @@
 // HTTP Handler and Configuration
 include '../../assets/config.php';
 
-// Connection API \ Read connection details
-// http://docs.oneall.com/api/resources/connections/read-connection-details/
+//Extract oken
+$identity_token = ( ! empty ($_REQUEST['identity_token']) ? $_REQUEST['identity_token'] : '');
 
 ?>
-	<h2><a href="check_sso_session.php">Click here to re-check the SSO session</a></h2>
+	<h2><a href="start_sso_session.php">Start New SSO Session</a></h2>
 <?php 
 
-// Get the details of this connection
-if ( ! empty ($_POST['connection_token']) && ! empty ($_POST['oa_action']) && $_POST['oa_action'] == 'single_sign_on')
+// Make Request
+if ( ! empty ($identity_token))
 {
 	// Make Request
-	$oneall_curly->get (SITE_DOMAIN . "/connections/" . $_POST['connection_token'] . ".json");
+	$oneall_curly->delete (SITE_DOMAIN . "/sso/sessions/identities/".$identity_token.".json?confirm_deletion=true");
 	$result = $oneall_curly->get_result ();
-	
+
 	// Success
 	if ($result->http_code == 200)
-	{
-		echo "<h1>Success " . $result->http_code . "</h1>";
-		echo "<h2>The following user data has been received through SSO</h2>";
+	{		
+		echo "<h1>Success " . $result->http_code . " (Session Destroyed)</h1>";
 		echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 	}
 	// Error
@@ -47,10 +46,13 @@ if ( ! empty ($_POST['connection_token']) && ! empty ($_POST['oa_action']) && $_
 		echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 	}
 }
+// No Token given
 else
 {
-	echo "<h1>Error (Invalid Request)</h1>";
-	echo "<pre>" . print_r($_REQUEST, true) . "</pre>";
+	?>
+		<h1>Error</h1>
+		<pre>No identity_token received: cannot remove SSO session</pre> 
+	<?php 
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2015 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,10 +19,10 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// Users \ Delete a single sign-on session
-// http://docs.oneall.com/api/resources/sso/delete-sso-session/
+// SSO API \ Delete SSO session
+// https://docs.oneall.com/api/resources/sso/delete-sso-session/
 
-// The SSO session to delete
+// Delete this SSO session
 $sso_session_token = '6566a6c6-1760-44b0-ab12-1503919c1732';
 
 // Make Request

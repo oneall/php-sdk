@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2012 OneAll, LLC.
+ * Copyright 2015 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -17,53 +17,52 @@
  */
 
 // HTTP Handler and Configuration
-include '../assets/config.php';
+include '../../assets/config.php';
 
-// User token
-$user_token = 'b8551e23-49e0-4f1a-9f34-090011f67fb8';
+// Single Sign-On \ Star SSO Session
+// http://docs.oneall.loc/api/resources/sso/create-session/
 
 // Identity token
-$identity_token = '45de5526-5022-4019-9d47-ed02f04bdff5';
+$identity_token = 'ca461c8f-b039-493c-8d29-d45a6fd5e956';
 
-// SSO Realm
-$top_realm = 'main';
-$sub_realm = '';
+// SSO Realm (If changed, they also have to be modified in detect.php on domain2)
+$top_realm = 'vegetables';
+$sub_realm = 'tomato';
 
-// After how many seconds will the SSO session timeout?
+// SSO session lifetime in seconds
 $lifetime = 86400;
 
 // Data Structure
-$data = array (
-	'request' => array (
-		'sso_session' => array (
-			'user_token' => $user_token,
-			'identity_token' => $identity_token,
+$data = array(
+	'request' => array(
+		'sso_session' => array(
 			'top_realm' => $top_realm,
-			'sub_realm' => $sub_realm
-		)
-	)
+			'sub_realm' => $sub_realm,
+			'lifetime' => $lifetime 
+		) 
+	) 
 );
 
 // Encode structure
 $request_structure_json = json_encode ($data);
 
 // Make Request
-$oneall_curly->put (SITE_DOMAIN . "/sso/sessions.json", $request_structure_json);
+$oneall_curly->put (SITE_DOMAIN . "/sso/sessions/identities/".$identity_token.".json", $request_structure_json);
 $result = $oneall_curly->get_result ();
 
-//Success
-if (in_array ($result->http_code, array (200, 201)))
+// Success
+if ($result->http_code == 201)
 {
 	// Read the result
 	$body = json_decode ($result->body);
-
+	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";exit;
 	// Extract the SSO session token
 	$sso_session_token = $body->response->result->data->sso_session->sso_session_token;
-
+	
 	// Build the redirect url
-	$protocol = (! empty ($_SERVER ['HTTPS']) && $_SERVER ['HTTPS'] !== 'off' || $_SERVER ['SERVER_PORT'] == 443) ? "https://" : "http://";
-	$url = $protocol . ($_SERVER ['SERVER_NAME'] . dirname ($_SERVER ['REQUEST_URI'])) . '/set_sso_session_cookie.php?sso_session_token=' . $sso_session_token;
-
+	$protocol = (!empty ($_SERVER ['HTTPS']) && $_SERVER ['HTTPS'] !== 'off' || $_SERVER ['SERVER_PORT'] == 443) ? "https://" : "http://";
+	$url = $protocol . ($_SERVER ['HTTP_HOST'] . dirname ($_SERVER ['REQUEST_URI'])) . '/set_sso_session_cookie.php?sso_session_token=' . $sso_session_token;
+		
 	// Set the SSO cookie
 	header ("Location: " . $url);
 }
