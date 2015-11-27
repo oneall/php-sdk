@@ -23,7 +23,7 @@ include '../../assets/config.php';
 // http://docs.oneall.loc/api/resources/sso/create-session/
 
 // Identity token
-$identity_token = 'ca461c8f-b039-493c-8d29-d45a6fd5e956';
+$identity_token = '6f9622a4-57f0-40e6-bc50-bcba6a7499af';
 
 // SSO Realm (If changed, they also have to be modified in detect.php on domain2)
 $top_realm = 'vegetables';

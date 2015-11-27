@@ -54,7 +54,7 @@ if ( ! empty ($sso_session_token))
 				var oa = document.createElement('script');
 				oa.type = 'text/javascript';
 				oa.async = true;
-				oa.src = 'http://oneall.api.oneall.loc/socialize/library.js';
+				oa.src = '<?php echo SITE_DOMAIN; ?>/socialize/library.js';
 				var s = document.getElementsByTagName('script')[0];
 				s.parentNode.insertBefore(oa, s);
 			})();
