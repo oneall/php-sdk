@@ -7,7 +7,7 @@ The scripts in the folders /domain1/ and /domain2/ must be executed from disctin
 
 To test SSO, first create the SSO session:
 
-	* http://www.domain-one.com/sso_api/domain1/create_sso_session.php
+	* http://www.domain-one.com/sso_api/domain1/start_sso_session.php
 	
 
 Then go to domain2 and check if it's recognized
