@@ -23,7 +23,7 @@ include '../assets/config.php';
 // http://docs.oneall.com/api/resources/users/write-to-users-wall/
 
 // Publish message for this user
-$user_token = '8aab3254-b87e-47f5-bdbd-5d2ab720f81e';
+$user_token = 'c1d82726-e81d-4e89-82af-fed19df8f64e';
 
 // Publish message by using a publish_token (available on mobile devices)
 $publish_token = '';
@@ -41,7 +41,8 @@ $message_structure = array (
 			'parts' => array (
 				'picture' => array (
 					'url' => 'http://public.oneallcdn.com/img/oneall_header_logo.png',
-					'caption' => 'My Picture'
+					'caption' => 'My Picture',
+					'target' => '10207703731045058'
 				),
 			),
 			'providers' => $providers
