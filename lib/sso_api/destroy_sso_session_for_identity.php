@@ -19,20 +19,20 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// SSO API \ Start SSO session
-// http://docs.oneall.com/api/resources/sso/start-session/
+// SSO API \ Destroy SSO session
+// http://docs.oneall.com/api/resources/sso/destroy-session/
 
-// Start SSO session for this identity
+// The identity for which you want to destroy the SSO session
 $identity_token = '6f9622a4-57f0-40e6-bc50-bcba6a7499af';
 
 // Make Request
-$oneall_curly->put (SITE_DOMAIN . "/sso/sessions/identities/" . $identity_token . ".json");
+$oneall_curly->delete (SITE_DOMAIN . "/sso/sessions/identities/" . $identity_token . ".json?confirm_deletion=true");
 $result = $oneall_curly->get_result ();
 
 // Success
-if ($result->http_code == 201)
+if ($result->http_code == 200)
 {
-	echo "<h1>Success " . $result->http_code . ", SSO Session Started</h1>";
+	echo "<h1>Success " . $result->http_code . ", SSO Session Destroyed</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
 // Error
