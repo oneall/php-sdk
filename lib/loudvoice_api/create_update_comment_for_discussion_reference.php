@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2016 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,11 +19,13 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// Discussion API \ Create comment
-// http://docs.oneall.com/api/resources/discussions/create-discussion/
+// LoudVoice API \ Create comment
 
 // Add a comment for this discussion
-$discussion_token = 'f399afdd-7754-436f-8881-e0dd95777932';
+$discussion_reference = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1';
+
+// Allow creating new discussions?
+$allow_create_discussion_reference = true;
 
 // Add a sub comment for this comment (Optional)
 $parent_comment_token = '';
@@ -35,7 +37,7 @@ $identity_token = ''; // 498ac3a3-ec9d-4a56-ba4a-0a3f3960145d';
 $author_token = ''; // 8e73e8ed-a21c-4d5e-a326-d0f3f3ddafb5';
 
 // Comment by this author (Optional)
-$author_reference = 'AUTHOR-1234567890';
+$author_reference = 'AUTHOR-123456789011';
 
 // Identity
 if (! empty ($identity_token))
@@ -43,7 +45,8 @@ if (! empty ($identity_token))
 	$request_structure = array (
 		'request' => array (
 			'discussion' => array (
-				'discussion_token' => $discussion_token
+				'discussion_reference' => $discussion_reference,
+				'title' => '123'
 			),
 			'comment' => array (
 				'parent_comment_token' => $parent_comment_token,
@@ -61,7 +64,9 @@ elseif (! empty ($author_token))
 	$request_structure = array (
 		'request' => array (
 			'discussion' => array (
-				'discussion_token' => $discussion_token
+				'allow_create_discussion_reference' => $allow_create_discussion_reference,
+				'discussion_reference' => $discussion_reference,
+				'title' => '123'
 			),
 			'comment' => array (
 				'parent_comment_token' => $parent_comment_token,
@@ -79,7 +84,10 @@ elseif (! empty ($author_reference))
 	$request_structure = array (
 		'request' => array (
 			'discussion' => array (
-				'discussion_token' => $discussion_token
+				'allow_create_discussion_reference' => $allow_create_discussion_reference,
+				'discussion_reference' => $discussion_reference,
+				'title' => '123'
+
 			),
 			'comment' => array (
 				'parent_comment_token' => $parent_comment_token,
@@ -101,7 +109,9 @@ else
 	$request_structure = array (
 		'request' => array (
 			'discussion' => array (
-				'discussion_token' => $discussion_token
+				'allow_create_discussion_reference' => $allow_create_discussion_reference,
+				'discussion_reference' => $discussion_reference,
+				'title' => '123'
 			),
 			'comment' => array (
 				'parent_comment_token' => $parent_comment_token,
@@ -121,7 +131,7 @@ else
 $request_structure_json = json_encode ($request_structure);
 
 // Make Request
-$oneall_curly->post (SITE_DOMAIN . "/discussions/comments.json", $request_structure_json);
+$oneall_curly->put (SITE_DOMAIN . "/loudvoice/comments.json?discussion_reference=".$discussion_reference, $request_structure_json);
 $result = $oneall_curly->get_result ();
 
 // Message
@@ -140,5 +150,3 @@ else
 	echo "<h1>Result: " . $result->http_code . " (Error)</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-
-?>

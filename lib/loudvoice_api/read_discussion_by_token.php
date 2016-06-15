@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2016 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -16,17 +16,18 @@
  *
  */
 
+// OK
+
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// Discussion API \ Delete discussion
-// http://docs.oneall.com/api/resources/discussions/delete-discussion/
+// LoudVoice API \ Read discussion (using the discussion_token)
 
-// The discussion to delete, deleting a discussion will also remove the comments that are part of it
-$discussion_token = 'f53817ff-2ba4-431d-bdea-99f0cb9b8d65';
+// Get the details of this discussion
+$discussion_token = '9c868349-319b-49fa-9830-c1407dd9b8fc';
 
 // Make Request
-$oneall_curly->delete (SITE_DOMAIN . "/discussions/" . $discussion_token . ".json?confirm_deletion=true");
+$oneall_curly->get (SITE_DOMAIN . "/loudvoice/discussions/" . $discussion_token . ".json");
 $result = $oneall_curly->get_result ();
 
 // Success
@@ -41,5 +42,3 @@ else
 	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-
-?>

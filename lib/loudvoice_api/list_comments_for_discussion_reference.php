@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2016 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -16,17 +16,27 @@
  *
  */
 
+// OK
+
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// Discussion API \ Read a discussion
-// http://docs.oneall.com/api/resources/discussions/read-discussion/
+// LoudVoice API \ List discussion comments
 
-// Get the details of this comment
-$comment_token = '347d8ac6-e250-46ea-a4f9-5b574faa3322';
+// Comments for this discussion
+$discussion_reference = 'testa';
+
+// The page to retrieve
+$page = 1;
+
+// Entries per page
+$entries_per_page = 150;
+
+// Newest first
+$order_direction = 'asc';
 
 // Make Request
-$oneall_curly->get (SITE_DOMAIN . "/discussions/comments/" . $comment_token . ".json");
+$oneall_curly->get (SITE_DOMAIN . "/loudvoice/discussions/discussion/comments.json?discussion_reference=" . $discussion_reference . "&page=" . $page . "&entries_per_page=" . $entries_per_page . "&order_direction=" . $order_direction);
 $result = $oneall_curly->get_result ();
 
 // Success
@@ -41,5 +51,3 @@ else
 	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2016 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -16,23 +16,18 @@
  *
  */
 
+// OK
+
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// Discussion API \ Delete discussion
-// http://docs.oneall.com/api/resources/discussions/delete-discussion/
+// LoudVoice API \ Read discussion (using the discussion_reference)
 
-// The comment to remove
-$comment_token = 'abdf383f-f812-42d4-bedd-727365e0a0d7';
-
-// Confirm deletion?
-$confirm_deletion = 'true'; // true | false
-
-// Recursively remove?
-$delete_recursive = 'false'; // true | false
+// Get the details of this discussion
+$discussion_reference = 'testa';
 
 // Make Request
-$oneall_curly->delete (SITE_DOMAIN . "/discussions/comments/" . $comment_token . ".json?confirm_deletion=" . $confirm_deletion . "&delete_recursive=" . $delete_recursive);
+$oneall_curly->get (SITE_DOMAIN . "/loudvoice/discussions/discussion.json?discussion_reference=" . $discussion_reference);
 $result = $oneall_curly->get_result ();
 
 // Success
@@ -47,5 +42,3 @@ else
 	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-
-?>
