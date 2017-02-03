@@ -19,7 +19,10 @@
 // HTTP Handler and Configuration
 include '../../assets/config.php';
 
-//Extract oken
+// Single Sign-On \ Destroy SSO Session for identity
+// https://docs.oneall.com/api/resources/sso/identity/destroy-session/
+
+// Identity token
 $identity_token = ( ! empty ($_REQUEST['identity_token']) ? $_REQUEST['identity_token'] : '');
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2015 OneAll, LLC.
+ * Copyright 2011-2017 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,13 +19,13 @@
 // HTTP Handler and Configuration
 include '../../assets/config.php';
 
-// Single Sign-On \ Star SSO Session
-// http://docs.oneall.loc/api/resources/sso/create-session/
+// Single Sign-On \ Start SSO Session for identity
+// https://docs.oneall.com/api/resources/sso/identity/start-session/
 
 // Identity token
-$identity_token = '6f9622a4-57f0-40e6-bc50-bcba6a7499af';
+$identity_token = 'a8acded5-db65-44ee-8e8e-2067057d1067';
 
-// SSO Realm (If changed, they also have to be modified in detect.php on domain2)
+// SSO Realm (If changed, they have also to be modified in check_sso_session.php on domain2)
 $top_realm = 'vegetables';
 $sub_realm = 'tomato';
 
@@ -63,7 +63,7 @@ if ($result->http_code == 201)
 	$protocol = (!empty ($_SERVER ['HTTPS']) && $_SERVER ['HTTPS'] !== 'off' || $_SERVER ['SERVER_PORT'] == 443) ? "https://" : "http://";
 	$url = $protocol . ($_SERVER ['HTTP_HOST'] . dirname ($_SERVER ['REQUEST_URI'])) . '/set_sso_session_cookie.php?sso_session_token=' . $sso_session_token;
 		
-	// Set the SSO cookie
+	// Redirect to the page that sets the SSO cookie
 	header ("Location: " . $url);
 }
 // Error
@@ -72,5 +72,3 @@ else
 	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-
-?>

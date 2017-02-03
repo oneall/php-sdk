@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2015 OneAll, LLC.
+ * Copyright 2011-2017 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,6 +19,10 @@
 // HTTP Handler and Configuration
 include '../../assets/config.php';
 
+// SSO Realm (If changed, they have also to be modified in start_sso_session.php on domain1)
+$top_realm = 'vegetables';
+$sub_realm = 'tomato';
+
 ?>
 <!DOCTYPE html>
 	<html>
@@ -26,7 +30,8 @@ include '../../assets/config.php';
 			<meta charset="utf-8" />
 			<title>SSO Login Test</title>
 			<script type="text/javascript">
-			<!-- Compute the callback_uri //-->
+
+				<!-- Compute the callback_uri //-->
 				var pathname = window.location.pathname;
 				var dir = pathname.substring(0, pathname.lastIndexOf('/'));
 				var protocol = window.location.protocol;
@@ -36,14 +41,13 @@ include '../../assets/config.php';
 				<!-- Include SSO //-->
 				var _oneall = window._oneall || [];
 				_oneall.push(['single_sign_on', 'set_callback_uri', callback_uri]);
-				_oneall.push(['single_sign_on', 'set_sso_realm', 'vegetables', 'tomato']);
+				_oneall.push(['single_sign_on', 'set_sso_realm', '<?php echo $top_realm; ?>', '<?php echo $sub_realm; ?>']);
 				_oneall.push(['single_sign_on', 'do_check_for_sso_session']);
 				
 				<!-- Include library.js //-->
 				(function() {
 					var oa = document.createElement('script');
-					oa.type = 'text/javascript';
-					oa.async = true;
+					oa.type = 'text/javascript'; oa.async = true;
 					oa.src = '<?php echo SITE_DOMAIN; ?>/socialize/library.js';
 					var s = document.getElementsByTagName('script')[0];
 					s.parentNode.insertBefore(oa, s);

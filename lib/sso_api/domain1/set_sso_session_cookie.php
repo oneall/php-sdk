@@ -19,7 +19,7 @@
 // HTTP Handler and Configuration
 include '../../assets/config.php';
 
-//Extract oken
+//Extract token
 $sso_session_token = ( ! empty ($_REQUEST['sso_session_token']) ? $_REQUEST['sso_session_token'] : '');
 
 ?>
@@ -48,16 +48,19 @@ if ( ! empty ($sso_session_token))
 				
 		?>
 			<script type="text/javascript">
-			var _oneall = window._oneall || [];
-			_oneall.push(['single_sign_on', 'do_register_sso_session', '<?php echo $sso_session_token; ?>']);
-			(function() {
-				var oa = document.createElement('script');
-				oa.type = 'text/javascript';
-				oa.async = true;
-				oa.src = '<?php echo SITE_DOMAIN; ?>/socialize/library.js';
-				var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(oa, s);
-			})();
+
+				var _oneall = window._oneall || [];
+				_oneall.push(['single_sign_on', 'do_register_sso_session', '<?php echo $sso_session_token; ?>']);
+				
+				(function() {
+					var oa = document.createElement('script');
+					oa.type = 'text/javascript';
+					oa.async = true;
+					oa.src = '<?php echo SITE_DOMAIN; ?>/socialize/library.js';
+					var s = document.getElementsByTagName('script')[0];
+					s.parentNode.insertBefore(oa, s);
+				})();
+				
 			</script>
 			<h2><a href="destroy_sso_session.php?identity_token=<?php echo $sso_session_data->identity_token; ?>">Destroy this SSO Session</a></h2>
 		<?php 
