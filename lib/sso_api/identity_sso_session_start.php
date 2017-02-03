@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2015 OneAll, LLC.
+ * Copyright 2011-2017 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,26 +19,20 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// SSO API \ Delete SSO session
-// https://docs.oneall.com/api/resources/sso/delete-sso-session/
+// SSO API \ Start SSO session for identity
+// https://docs.oneall.com/api/resources/sso/identity/start-session/
 
-// Delete this SSO session
-$sso_session_token = '6566a6c6-1760-44b0-ab12-1503919c1732';
+// The identity for which you want to start the SSO session
+$identity_token = 'a8acded5-db65-44ee-8e8e-2067057d1067';
 
 // Make Request
-$oneall_curly->delete (SITE_DOMAIN . "/sso/sessions/" . $sso_session_token . ".json?confirm_deletion=true");
+$oneall_curly->put (SITE_DOMAIN . "/sso/sessions/identities/" . $identity_token . ".json");
 $result = $oneall_curly->get_result ();
 
 // Success
-if ($result->http_code == 200)
+if ($result->http_code == 201)
 {
-	echo "<h1>Success " . $result->http_code . "</h1>";
-	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
-}
-// Not found
-elseif ($result->http_code == 404)
-{
-	echo "<h1>SSO session not found " . $result->http_code . "</h1>";
+	echo "<h1>Success " . $result->http_code . ", SSO Session Started</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
 // Error
@@ -47,5 +41,3 @@ else
 	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-
-?>

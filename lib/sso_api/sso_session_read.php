@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2015 OneAll, LLC.
+ * Copyright 2011-2017 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -20,7 +20,7 @@
 include '../assets/config.php';
 
 // SSO API \ Read SSO session
-// https://docs.oneall.loc/api/resources/sso/read-session-details/
+// https://docs.oneall.com/api/resources/sso/read-session-details/
 
 // Get the details of this SSO session
 $sso_session_token = '686c24dd-9843-4802-9528-d83bdbeee24d';
@@ -41,5 +41,3 @@ else
 	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-
-?>

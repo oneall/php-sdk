@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2016 OneAll, LLC.
+ * Copyright 2011-2017 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,20 +19,26 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// SSO API \ Destroy SSO session
-// http://docs.oneall.com/api/resources/sso/destroy-session/
+// SSO API \ Delete SSO session
+// http://docs.oneall.loc/api/resources/sso/delete-session/
 
-// The identity for which you want to destroy the SSO session
-$identity_token = '6f9622a4-57f0-40e6-bc50-bcba6a7499af';
+// Delete this SSO session
+$sso_session_token = '6566a6c6-1760-44b0-ab12-1503919c1732';
 
 // Make Request
-$oneall_curly->delete (SITE_DOMAIN . "/sso/sessions/identities/" . $identity_token . ".json?confirm_deletion=true");
+$oneall_curly->delete (SITE_DOMAIN . "/sso/sessions/" . $sso_session_token . ".json?confirm_deletion=true");
 $result = $oneall_curly->get_result ();
 
 // Success
 if ($result->http_code == 200)
 {
-	echo "<h1>Success " . $result->http_code . ", SSO Session Destroyed</h1>";
+	echo "<h1>Success " . $result->http_code . "</h1>";
+	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
+}
+// Not found
+elseif ($result->http_code == 404)
+{
+	echo "<h1>SSO session not found " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
 // Error
@@ -41,5 +47,3 @@ else
 	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2015 OneAll, LLC.
+ * Copyright 2011-2017 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -77,5 +77,3 @@ else
 		<pre>No sso_session_token received: cannot set SSO session cookie</pre> 
 	<?php 
 }
-
-?>

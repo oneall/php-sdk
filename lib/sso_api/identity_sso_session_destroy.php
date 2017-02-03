@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2015 OneAll, LLC.
+ * Copyright 2011-2017 OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,23 +19,20 @@
 // HTTP Handler and Configuration
 include '../assets/config.php';
 
-// SSO API \ List all SSO sessions
-// https://docs.oneall.loc/api/resources/sso/list-all-sessions/
+// SSO API \ Destroy SSO session for identity
+// https://docs.oneall.com/api/resources/sso/identity/destroy-session/
 
-// The page to retrieve
-$page = 1;
-
-// Newest first
-$order_direction = 'desc';
+// The identity for which you want to destroy the SSO session
+$identity_token = 'a8acded5-db65-44ee-8e8e-2067057d1067';
 
 // Make Request
-$oneall_curly->get (SITE_DOMAIN . "/sso/sessions.json?page=" . $page . "&order_direction=" . $order_direction);
+$oneall_curly->delete (SITE_DOMAIN . "/sso/sessions/identities/" . $identity_token . ".json?confirm_deletion=true");
 $result = $oneall_curly->get_result ();
 
 // Success
 if ($result->http_code == 200)
 {
-	echo "<h1>Success " . $result->http_code . "</h1>";
+	echo "<h1>Success " . $result->http_code . ", SSO Session Destroyed</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
 // Error
@@ -44,5 +41,3 @@ else
 	echo "<h1>Error " . $result->http_code . "</h1>";
 	echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
 }
-
-?>
