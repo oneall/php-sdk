@@ -20,7 +20,7 @@
 include '../assets/config.php';
 
 // SSO API \ Delete SSO session
-// http://docs.oneall.loc/api/resources/sso/delete-session/
+// https://docs.oneall.com/api/resources/sso/delete-session/
 
 // Delete this SSO session
 $sso_session_token = '6566a6c6-1760-44b0-ab12-1503919c1732';
