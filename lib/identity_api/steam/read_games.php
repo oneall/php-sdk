@@ -19,10 +19,10 @@
 // HTTP Handler and Configuration
 include '../../assets/config.php';
 
-// Read the details on an identity
+// Read the games on an identity
 // https://docs.oneall.com/api/resources/identities/steam/list-games/
 
-// Get the videos of this identity
+// Get the games of this identity
 $identity_token = '5dd7336a-cb66-42dc-95da-1a6dade8f743';
 
 // Make Request
