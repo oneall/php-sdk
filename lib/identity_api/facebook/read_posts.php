@@ -19,14 +19,14 @@
 // HTTP Handler and Configuration
 include '../../assets/config.php';
 
-// Read the YouTube videos of an identity
-// https://docs.oneall.com/api/resources/identities/steam/list-games/
+// Read the Facebook posts of an identity
+// https://docs.oneall.com/api/resources/identities/facebook/list-posts/
 
-// Get the YouTube videos of this identity
-$identity_token = '5dd7336a-cb66-42dc-95da-1a6dade8f743';
+// Get the Facebook posts of this identity
+$identity_token = '051d81c0-2f3a-4bcf-88c6-592f56a97f3e';
 
 // Make Request
-$oneall_curly->get(SITE_DOMAIN . "/identities/" . $identity_token . "/youtube/videos.json");
+$oneall_curly->get(SITE_DOMAIN . "/identities/" . $identity_token . "/facebook/posts.json");
 $result = $oneall_curly->get_result();
 
 // Success
