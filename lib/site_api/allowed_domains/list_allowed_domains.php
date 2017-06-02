@@ -19,7 +19,7 @@
 // HTTP Handler and Configuration
 include '../../assets/config.php';
 
-// List all allowed dpmains
+// List all allowed domains
 // https://docs.oneall.com/api/resources/site/allowed-domains/
 
 // Make Request
