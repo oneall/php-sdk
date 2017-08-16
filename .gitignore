@@ -1,0 +1,36 @@
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+#Eclipse: https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore
+*.pydevproject
+.metadata
+.gradle
+.vagrant
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.project
+.externalToolBuilders/
+*.launch
+.cproject
+.classpath
+.factorypath
+.buildpath
+.target
+.texlipse
+.idea
+local/lib/classes/init/config/config.ini
+local/lib/classes/init/config/config.json
+data/customers/uploads/company/*
+tags
+
+local/lib/classes/init/config/autoload/**/local.php
+local/lib/classes/init/config/autoload/**/*.local.php
