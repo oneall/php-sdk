@@ -5,4 +5,4 @@ Our API unifies the sharing endpoints of the social networks and offers a standa
 to simplify the task. 
 
 Documentation:
-http://docs.oneall.loc/api/resources/push/
+https://docs.oneall.com/api/resources/push/
