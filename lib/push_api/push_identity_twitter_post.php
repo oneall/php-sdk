@@ -23,7 +23,7 @@ include '../assets/config.php';
 // https://docs.oneall.com/api/resources/push/twitter/picture/
 
 // Publish message for this identity
-$identity_token = '46d0dfdf-4b5d-4565-b4d6-d14252fb1e6e';
+$identity_token = 'aff48bc8-0aa4-4a35-b3d8-293714d82468';
 
 // Message structure
 $message_structure = array (
@@ -32,6 +32,7 @@ $message_structure = array (
 			'post' => array (
 				'message' => 'Hello Wordl!',
 				'attachments' => array (
+					'912249625129684992'
 				)
 			)
 		)
@@ -43,7 +44,7 @@ $request_structure_json = json_encode ($message_structure);
 
 // Message
 echo "<h1>Data</h1>";
-echo "<pre>" . stripslashes (oneall_pretty_json::format_string ($request_structure_json)) . "</pre>";
+echo "<pre>" . oneall_pretty_json::format_string ($request_structure_json) . "</pre>";
 
 // Make request
 $oneall_curly->post (SITE_DOMAIN . "/push/identities/" . $identity_token . "/twitter/post.json", $request_structure_json);

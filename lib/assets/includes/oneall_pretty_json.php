@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014 OneAll, LLC.
+ * Copyright 2017 - Present OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -20,7 +20,7 @@
 // Return a nicely formatted JSON string
 class oneall_pretty_json
 {
-	public static function format_string ($json)
+	public static function format_string ($json, $stripslashes = true)
 	{
 		$result = '';
 		$pos = 0;
@@ -72,7 +72,6 @@ class oneall_pretty_json
 		}
 
 		// Done
-		return $result;
+		return ($stripslashes ? stripslashes ($result) : $result);
 	}
 }
-?>

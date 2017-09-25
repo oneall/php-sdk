@@ -23,7 +23,7 @@ include '../assets/config.php';
 // https://docs.oneall.com/api/resources/push/linkedin/post/
 
 // Publish message for this identity
-$identity_token = '498ac3a3-ec9d-4a56-ba4a-0a3f3960145d';
+$identity_token = 'b2fb6c5b-ff37-412a-bb09-fcaf12b33c70';
 
 // Message structure
 $message_structure = array (
@@ -45,7 +45,7 @@ $request_structure_json = json_encode ($message_structure);
 
 // Message
 echo "<h1>Data</h1>";
-echo "<pre>" . stripslashes (oneall_pretty_json::format_string ($request_structure_json)) . "</pre>";
+echo "<pre>" . oneall_pretty_json::format_string ($request_structure_json) . "</pre>";
 
 // Make request
 $oneall_curly->post (SITE_DOMAIN . "/push/identities/" . $identity_token . "/linkedin/post.json", $request_structure_json);

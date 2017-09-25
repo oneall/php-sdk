@@ -23,7 +23,7 @@ include '../assets/config.php';
 // https://docs.oneall.com/api/resources/push/facebook/post/
 
 // Publish message for this identity
-$identity_token = '923843ec-1749-4cc1-988f-d6963f3b1baa';
+$identity_token = '904efe18-6b7c-417c-af50-868f2828ebaf';
 
 // Message structure
 $message_structure = array (
@@ -33,6 +33,7 @@ $message_structure = array (
 				'message' => 'OneAll',
 				'link' => 'http://www.oneall.com/',
 				'attachments' => array (
+					// '10213128014248748'
 				)
 			)
 		)
@@ -44,7 +45,7 @@ $request_structure_json = json_encode ($message_structure);
 
 // Message
 echo "<h1>Data</h1>";
-echo "<pre>" . stripslashes (oneall_pretty_json::format_string ($request_structure_json)) . "</pre>";
+echo "<pre>" . oneall_pretty_json::format_string ($request_structure_json) . "</pre>";
 
 // Make request
 $oneall_curly->post (SITE_DOMAIN . "/push/identities/" . $identity_token . "/facebook/post.json", $request_structure_json);
