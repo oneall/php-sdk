@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2015 OneAll, LLC.
+ * Copyright 2016-Present OneAll, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -28,17 +28,16 @@ $structure = array(
 		'user' => array(
 			'externalid' => 100000002,
 			'login' => 'johnny',
-			'password' => 'iaaU3WA6kFlR' 
-		) 
+			'password' => 'iaaU3WA6kFlR'
+		)
 	)
-	 
 );
 
 // Encode structure
 $structure_json = json_encode ($structure);
 
 echo "<h1>Data</h1>";
-echo "<pre>" . stripslashes (oneall_pretty_json::format_string ($structure_json)) . "</pre>";
+echo "<pre>" . oneall_pretty_json::format_string ($structure_json) . "</pre>";
 
 // Make Request
 $oneall_curly->post (SITE_DOMAIN . "/storage/users/user/lookup.json", $structure_json);
@@ -65,4 +64,3 @@ else
 	echo "<h1>Error " . $result->http_code . "</h1>";
 }
 echo "<pre>" . oneall_pretty_json::format_string ($result->body) . "</pre>";
-?>
