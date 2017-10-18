@@ -1,0 +1,20 @@
+{
+  "name"        : "oneall/php-sdk",
+  "require"     : {
+    "php": ">=5.4"
+  },
+  "require-dev" : {
+    "phpunit/phpunit": "@stable",
+    "phpmd/phpmd"    : "~2.6"
+  },
+  "autoload"    : {
+    "psr-4": {
+      "Oneall\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Oneall\\Test\\": "tests/unit"
+    }
+  }
+}
