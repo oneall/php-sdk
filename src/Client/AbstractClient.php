@@ -171,7 +171,7 @@ abstract class AbstractClient implements ClientInterface
      */
     public function getDomain()
     {
-        return $this->getSubDomain() . '.' . $this->getBaseDomain();
+        return $this->getSubDomain() . '.api.' . $this->getBaseDomain();
     }
 
     /**
