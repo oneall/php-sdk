@@ -52,7 +52,7 @@ class Storage extends AbstractApi
      * @param string $login
      * @param string $password
      * @param array  $identity
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/storage/users/create-user/
      *
@@ -62,8 +62,7 @@ class Storage extends AbstractApi
         array $identity,
         $externalId = null,
         $login = null,
-        $password = null,
-        array $options = []
+        $password = null
     ) {
         $data = [
             "request" => [
@@ -77,7 +76,7 @@ class Storage extends AbstractApi
         $data = $this->addInfo($data, 'request/user/login', $login);
         $data = $this->addInfo($data, 'request/user/password', $password);
 
-        return $this->getClient()->post('/storage/users.json', $data, $options);
+        return $this->getClient()->post('/storage/users.json', $data);
     }
 
     /**
@@ -89,7 +88,7 @@ class Storage extends AbstractApi
      * @param string $password
      * @param array  $identity
      * @param string $mode
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/storage/users/update-user/
      *
@@ -101,8 +100,7 @@ class Storage extends AbstractApi
         $login = null,
         $password = null,
         array $identity = [],
-        $mode = self::MODE_UPDATE_REPLACE,
-        array $options = []
+        $mode = self::MODE_UPDATE_REPLACE
     ) {
 
         if (empty($externalId) && empty($login) && empty($password) && empty($identity))
@@ -122,7 +120,7 @@ class Storage extends AbstractApi
         $data = $this->addInfo($data, 'request/user/password', $password);
         $data = $this->addInfo($data, 'request/user/identity', $identity);
 
-        return $this->getClient()->put('/storage/users/' . $userToken . '.json', $data, $options);
+        return $this->getClient()->put('/storage/users/' . $userToken . '.json', $data);
     }
 
     /**
@@ -152,13 +150,13 @@ class Storage extends AbstractApi
      * Look up user by its external id.
      *
      * @param mixed $externalId
-     * @param array $options
+
      *
      * @see http://docs.oneall.com/api/resources/storage/users/lookup-user/
      *
      * @return \Oneall\Client\Response
      */
-    public function lookUpById($externalId, array $options = [])
+    public function lookUpById($externalId)
     {
         $data = [
             "request" => [
@@ -168,7 +166,7 @@ class Storage extends AbstractApi
             ]
         ];
 
-        return $this->getClient()->post('/storage/users/user/lookup.json', $data, $options);
+        return $this->getClient()->post('/storage/users/user/lookup.json', $data);
     }
 
     /**
@@ -176,13 +174,12 @@ class Storage extends AbstractApi
      *
      * @param string      $login
      * @param string|null $password
-     * @param array       $options
      *
      * @see http://docs.oneall.com/api/resources/storage/users/lookup-user/
      *
      * @return \Oneall\Client\Response
      */
-    public function lookUpByCredentials($login, $password = null, array $options = [])
+    public function lookUpByCredentials($login, $password = null)
     {
         $data = [
             "request" => [
@@ -194,6 +191,6 @@ class Storage extends AbstractApi
 
         $data = $this->addInfo($data, 'request/user/password', $password);
 
-        return $this->getClient()->post('/storage/users/user/lookup.json', $data, $options);
+        return $this->getClient()->post('/storage/users/user/lookup.json', $data);
     }
 }

@@ -44,7 +44,6 @@ class Analytics extends AbstractApi
     /**
      * List All Snapshots
      *
-     * @param array  $options
      * @param string $identityToken
      * @param string $userToken
      *
@@ -52,7 +51,7 @@ class Analytics extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll($identityToken = null, $userToken = null, $options = [])
+    public function getAll($identityToken = null, $userToken = null)
     {
         $uri   = '/sharing/analytics/snapshots.json';
         $query = [];
@@ -72,7 +71,7 @@ class Analytics extends AbstractApi
             $uri .= '?' . http_build_query($query);
         }
 
-        $response = $this->getClient()->get($uri, $options);
+        $response = $this->getClient()->get($uri);
 
         return $response;
     }
@@ -82,13 +81,12 @@ class Analytics extends AbstractApi
      *
      * @param string $messageToken
      * @param string $pingbackUri
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/sharing-analytics/initiate-snapshot/
      *
      * @return \Oneall\Client\Response
      */
-    public function initiate($messageToken, $pingbackUri, array $options = [])
+    public function initiate($messageToken, $pingbackUri)
     {
         $data = [
             'request' => [
@@ -101,39 +99,37 @@ class Analytics extends AbstractApi
             ]
         ];
 
-        return $this->getClient()->put('/sharing/analytics/snapshots.json', $data, $options);
+        return $this->getClient()->put('/sharing/analytics/snapshots.json', $data);
     }
 
     /**
      * Get Details Of A Snapshot
      *
      * @param string $snapshotToken
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/sharing-analytics/read-snapshot-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function get($snapshotToken, array $options = [])
+    public function get($snapshotToken)
     {
 
-        return $this->getClient()->get('/sharing/analytics/snapshots/' . $snapshotToken . '.json', $options);
+        return $this->getClient()->get('/sharing/analytics/snapshots/' . $snapshotToken . '.json');
     }
 
     /**
      * Get Details Of A Snapshot
      *
      * @param string $snapshotToken
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/sharing-analytics/delete-snapshot/
      *
      * @return \Oneall\Client\Response
      */
-    public function delete($snapshotToken, array $options = [])
+    public function delete($snapshotToken)
     {
         $uri      = '/sharing/analytics/snapshots/' . $snapshotToken . '.json?confirm_deletion=true';
-        $response = $this->getClient()->delete($uri, $options);
+        $response = $this->getClient()->delete($uri);
 
         return $response;
     }

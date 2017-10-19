@@ -48,33 +48,33 @@ class FSockOpen extends AbstractClient
     /**
      * {@inheritdoc}
      */
-    public function get($path, $options = array())
+    public function get($path = array())
     {
-        return $this->request($path, 'GET', null, $options);
+        return $this->request($path, 'GET', null);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function post($path, array $data, array $options = array())
+    public function post($path, array $data)
     {
-        return $this->request($path, 'POST', $data, $options);
+        return $this->request($path, 'POST', $data);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function put($path, array $data, array $options = array())
+    public function put($path, array $data)
     {
-        return $this->request($path, 'PUT', $data, $options);
+        return $this->request($path, 'PUT', $data);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function delete($path, $options = array())
+    public function delete($path = array())
     {
-        return $this->request($path, 'DELETE', null, $options);
+        return $this->request($path, 'DELETE', null);
     }
 
     /**

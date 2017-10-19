@@ -44,30 +44,27 @@ class User extends AbstractApi
     /**
      * List all users
      *
-     * @param array $options
-     *
      * @see http://docs.oneall.com/api/resources/users/list-all-users/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll(array $options = [])
+    public function getAll()
     {
-        return $this->getClient()->get('/users.json', $options);
+        return $this->getClient()->get('/users.json');
     }
 
     /**
      * Retrieve user details
      *
      * @param string $token
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/users/read-user-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function get($token, array $options = [])
+    public function get($token)
     {
-        return $this->getClient()->get('/users/' . $token . '.json', $options);
+        return $this->getClient()->get('/users/' . $token . '.json');
     }
 
     /**
@@ -77,7 +74,6 @@ class User extends AbstractApi
      * @param string $accessTokenKey
      * @param string $userToken
      * @param string $accessTokenSecret
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/users/import-user/
      *
@@ -87,8 +83,7 @@ class User extends AbstractApi
         $providerKey,
         $accessTokenKey,
         $userToken = null,
-        $accessTokenSecret = null,
-        array $options = []
+        $accessTokenSecret = null
     ) {
         $data = [
             "request" => [
@@ -109,20 +104,19 @@ class User extends AbstractApi
         $data = $this->addInfo($data, 'request/user/identity/source/access_token/secret', $accessTokenSecret);
         $data = $this->addInfo($data, 'request/user/user_token/', $userToken);
 
-        return $this->getClient()->put('/users.json', $data, $options);
+        return $this->getClient()->put('/users.json', $data);
     }
 
     /**
      * Delete a user
      *
      * @param string $token
-     * @param array  $options
      *
      * @return \Oneall\Client\Response
      */
-    public function delete($token, array $options = [])
+    public function delete($token)
     {
-        return $this->getClient()->delete('/users/' . $token . '.json?confirm_deletion=true', $options);
+        return $this->getClient()->delete('/users/' . $token . '.json?confirm_deletion=true');
     }
 
     /**
@@ -130,13 +124,13 @@ class User extends AbstractApi
      *
      * @param string $token
      * @param bool   $disableCache
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/users/read-contacts/
      *
      * @return \Oneall\Client\Response
      */
-    public function getContacts($token, $disableCache = false, array $options = [])
+    public function getContacts($token, $disableCache = false)
     {
         $uri = '/users/' . $token . '/contacts.json';
         if ($disableCache)
@@ -144,7 +138,7 @@ class User extends AbstractApi
             $uri .= '?disable_cache=true';
         }
 
-        return $this->getClient()->get($uri, $options);
+        return $this->getClient()->get($uri);
     }
 
     /**
@@ -157,7 +151,7 @@ class User extends AbstractApi
      * @param string $pictureUrl
      * @param array  $link
      * @param array  $upload
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/users/write-to-users-wall/
      *
@@ -170,8 +164,7 @@ class User extends AbstractApi
         $videoUrl = null,
         $pictureUrl = null,
         array $link = [],
-        array $upload = [],
-        array $options = []
+        array $upload = []
     ) {
 
         $data = [
@@ -190,6 +183,6 @@ class User extends AbstractApi
         $data = $this->addInfo($data, 'request/message/parts/uploads', $upload);
         $data = $this->addInfo($data, 'request/message/parts/link', $link);
 
-        return $this->getClient()->post('/users/' . $token . '/publish.json', $data, $options);
+        return $this->getClient()->post('/users/' . $token . '/publish.json', $data);
     }
 }

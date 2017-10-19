@@ -44,28 +44,28 @@ class ShortUrl extends AbstractApi
     /**
      * List All Shortened URLs
      *
-     * @param array $options
+
      *
      * @see http://docs.oneall.com/api/resources/shorturls/list-all-shorturls/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll(array $options = [])
+    public function getAll()
     {
-        return $this->getClient()->get('/shorturls.json', $options);
+        return $this->getClient()->get('/shorturls.json');
     }
 
     /**
      * Shorten An URL
      *
      * @param string $url
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/shorturls/create-shorturl/
      *
      * @return \Oneall\Client\Response
      */
-    public function create($url, array $options = [])
+    public function create($url)
     {
         $data = [
             'request' => [
@@ -75,36 +75,36 @@ class ShortUrl extends AbstractApi
             ]
         ];
 
-        return $this->getClient()->post('/shorturls.json', $data, $options);
+        return $this->getClient()->post('/shorturls.json', $data);
     }
 
     /**
      * Read Details Of A Shortened URL
      *
      * @param string $token
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/shorturls/read-shorturl-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function get($token, array $options = [])
+    public function get($token)
     {
-        return $this->getClient()->get('/shorturls/' . $token . '.json', $options);
+        return $this->getClient()->get('/shorturls/' . $token . '.json');
     }
 
     /**
      * Delete A Shortened URL
      *
      * @param string $token
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/shorturls/delete-shorturl/
      *
      * @return \Oneall\Client\Response
      */
-    public function delete($token, array $options = [])
+    public function delete($token)
     {
-        return $this->getClient()->delete('/shorturls/' . $token . '.json?confirm_deletion=true', $options);
+        return $this->getClient()->delete('/shorturls/' . $token . '.json?confirm_deletion=true');
     }
 }

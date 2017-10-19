@@ -88,7 +88,7 @@ class Curl extends AbstractClient
     /**
      * {@inheritdoc}
      */
-    public function get($path, $options = array())
+    public function get($path)
     {
         $this->initOptions();
         $this->setOption('HTTPGET', 1);
@@ -99,7 +99,7 @@ class Curl extends AbstractClient
     /**
      * {@inheritdoc}
      */
-    public function post($path, array $data, array $options = array())
+    public function post($path, array $data)
     {
         $this->initOptions();
         $this->setOption('POST', 1);
@@ -113,7 +113,7 @@ class Curl extends AbstractClient
     /**
      * {@inheritdoc}
      */
-    public function put($path, array $data, array $options = array())
+    public function put($path, array $data)
     {
         $this->initOptions();
         $this->setOption('CUSTOMREQUEST', 'PUT');
@@ -126,7 +126,7 @@ class Curl extends AbstractClient
     /**
      * {@inheritdoc}
      */
-    public function delete($path, $options = array())
+    public function delete($path)
     {
         $this->initOptions();
         $this->setOption('CUSTOMREQUEST', 'DELETE');
@@ -146,7 +146,7 @@ class Curl extends AbstractClient
 
         $this->setCurlOptions($curlHandler, $this->getOptions());
 
-        $response    = curl_exec($curlHandler);
+        $response = curl_exec($curlHandler);
         $errorNumber = curl_errno($curlHandler);
         $curlInfo    = curl_getinfo($curlHandler);
 

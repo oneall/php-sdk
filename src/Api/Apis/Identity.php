@@ -44,58 +44,54 @@ class Identity extends AbstractApi
     /**
      * List all identities
      *
-     * @param array $options
      *
      * @see http://docs.oneall.com/api/resources/identities/list-all-identities/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll(array $options = [])
+    public function getAll()
     {
-        return $this->getClient()->get('/identities.json', $options);
+        return $this->getClient()->get('/identities.json');
     }
 
     /**
      * Read Identity Details
      *
      * @param string $identityToken
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/identities/list-all-identities/
      *
      * @return \Oneall\Client\Response
      */
-    public function get($identityToken, array $options = [])
+    public function get($identityToken)
     {
-        return $this->getClient()->get('/identities/' . $identityToken . '.json', $options);
+        return $this->getClient()->get('/identities/' . $identityToken . '.json');
     }
 
     /**
      * Delete Identity
      *
      * @param string $identityToken
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/identities/delete-identity/
      *
      * @return \Oneall\Client\Response
      */
-    public function delete($identityToken, array $options = [])
+    public function delete($identityToken)
     {
-        return $this->getClient()->delete('/identities/' . $identityToken . '.json?confirm_deletion=true', $options);
+        return $this->getClient()->delete('/identities/' . $identityToken . '.json?confirm_deletion=true');
     }
 
     /**
      * ReLink Identity
      *
      * @param string $identityToken
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/identities/relink-identity/
      *
      * @return \Oneall\Client\Response
      */
-    public function relink($identityToken, $userToken, array $options = [])
+    public function relink($identityToken, $userToken)
     {
         $data = [
             'request' => [
@@ -105,7 +101,7 @@ class Identity extends AbstractApi
             ]
         ];
 
-        return $this->getClient()->put('/identities/' . $identityToken . '/link.json', $data, $options);
+        return $this->getClient()->put('/identities/' . $identityToken . '/link.json', $data);
     }
 
     /**
@@ -114,13 +110,12 @@ class Identity extends AbstractApi
      * @param string $identityToken
      * @param bool   $updateUserData
      * @param bool   $forceTokenUpdate
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/identities/synchronize-identity/
      *
      * @return \Oneall\Client\Response
      */
-    public function synchronize($identityToken, $updateUserData = true, $forceTokenUpdate = false, array $options = [])
+    public function synchronize($identityToken, $updateUserData = true, $forceTokenUpdate = false)
     {
         $data = [
             'request' => [
@@ -131,21 +126,20 @@ class Identity extends AbstractApi
             ]
         ];
 
-        return $this->getClient()->put('/identities/' . $identityToken . '/synchronize.json', $data, $options);
+        return $this->getClient()->put('/identities/' . $identityToken . '/synchronize.json', $data);
     }
 
     /**
      * Read Identity Contacts
      *
      * @param string $identityToken
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/identities/read-contacts/
      *
      * @return \Oneall\Client\Response
      */
-    public function getContacts($identityToken, array $options = [])
+    public function getContacts($identityToken)
     {
-        return $this->getClient()->get('/identities/' . $identityToken . '/contacts.json', $options);
+        return $this->getClient()->get('/identities/' . $identityToken . '/contacts.json');
     }
 }

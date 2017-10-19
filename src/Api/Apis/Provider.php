@@ -68,15 +68,15 @@ class Provider extends AbstractApi
     /**
      * List All Providers
      *
-     * @param array $options
+
      *
      * @see http://docs.oneall.com/api/resources/providers/list-all-providers/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll(array $options = [])
+    public function getAll()
     {
-        return $this->getClient()->get('/providers.json', $options);
+        return $this->getClient()->get('/providers.json');
     }
 
     /**

@@ -48,35 +48,34 @@ class Facebook extends AbstractApi
      * Facebook \ List Posts
      *
      * @param string $identityToken
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/identities/facebook/list-posts/
      *
      * @return \Oneall\Client\Response
      */
-    public function getPosts($identityToken, array $options = [])
+    public function getPosts($identityToken)
     {
-        return $this->getClient()->get('/identities/' . $identityToken . '/facebook/posts.json', $options);
+        return $this->getClient()->get('/identities/' . $identityToken . '/facebook/posts.json');
     }
 
     /**
      * Facebook \ List Posts
      *
-     * @param array $options
+
      *
      * @see http://docs.oneall.com/api/resources/providers/facebook/list-all-pages/
      *
      * @return \Oneall\Client\Response
      */
-    public function getPages(array $options = [])
+    public function getPages()
     {
-        return $this->getClient()->get('/providers/facebook/pages.json', $options);
+        return $this->getClient()->get('/providers/facebook/pages.json');
     }
 
     /**
      * Facebook \ List Posts
      *
-     * @param array $options
+
      *
      * @see http://docs.oneall.com/api/resources/providers/facebook/list-all-pages/
      *
@@ -87,11 +86,10 @@ class Facebook extends AbstractApi
      * @param string $text
      * @param array  $link an array with the following elements :url, name, caption, description
      * @param string $pictureUrl
-     * @param array  $options
      *
      * @return \Oneall\Client\Response
      */
-    public function publish($pageToken, $text, array $link = [], $pictureUrl = null, array $options = [])
+    public function publish($pageToken, $text, array $link = [], $pictureUrl = null)
     {
         if (empty($text) && empty($link['url']))
         {
@@ -114,6 +112,6 @@ class Facebook extends AbstractApi
         $data = $this->addInfo($data, 'request/page_message/parts/picture/url', $pictureUrl);
         $data = $this->addInfo($data, 'request/page_message/parts/link', $link);
 
-        return $this->getClient()->post('/providers/facebook/pages/' . $pageToken . '/publish.json', $data, $options);
+        return $this->getClient()->post('/providers/facebook/pages/' . $pageToken . '/publish.json', $data);
     }
 }

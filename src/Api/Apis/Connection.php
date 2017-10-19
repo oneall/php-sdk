@@ -44,15 +44,13 @@ class Connection extends AbstractApi
     /**
      * List all connections
      *
-     * @param array $options
-     *
      * @see http://docs.oneall.com/api/resources/connections/list-all-connections/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll($options = [])
+    public function getAll()
     {
-        $response = $this->getClient()->get('/connections.json', $options);
+        $response = $this->getClient()->get('/connections.json');
 
         return $response;
     }
@@ -61,15 +59,14 @@ class Connection extends AbstractApi
      * Read Connection Details
      *
      * @param string $token
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/connections/read-connection-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function get($token, array $options = [])
+    public function get($token)
     {
-        $response = $this->getClient()->get('/connections/' . $token . '.json', $options);
+        $response = $this->getClient()->get(' / connections / ' . $token . ' . json');
 
         return $response;
     }

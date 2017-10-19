@@ -47,14 +47,13 @@ class Steam extends AbstractApi
      * Steam \ List Games
      *
      * @param string $identityToken
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/identities/steam/list-games/
      *
      * @return \Oneall\Client\Response
      */
-    public function getGames($identityToken, array $options = [])
+    public function getGames($identityToken)
     {
-        return $this->getClient()->get('/identities/' . $identityToken . '/steam/games.json', $options);
+        return $this->getClient()->get('/identities/' . $identityToken . '/steam/games.json');
     }
 }

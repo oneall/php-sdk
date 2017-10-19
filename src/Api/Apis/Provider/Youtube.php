@@ -47,14 +47,13 @@ class Youtube extends AbstractApi
      * Youtube \ List Videos
      *
      * @param string $identityToken
-     * @param array  $options
      *
      * @see http://docs.oneall.com/api/resources/identities/youtube/list-videos/
      *
      * @return \Oneall\Client\Response
      */
-    public function getVideos($identityToken, array $options = [])
+    public function getVideos($identityToken)
     {
-        return $this->getClient()->get('/identities/' . $identityToken . '/youtube/videos.json', $options);
+        return $this->getClient()->get('/identities/' . $identityToken . '/youtube/videos.json');
     }
 }

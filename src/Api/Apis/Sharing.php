@@ -44,59 +44,59 @@ class Sharing extends AbstractApi
     /**
      * List All Shared Pages
      *
-     * @param array $options
+
      *
      * @see http://docs.oneall.com/api/resources/sharing/pages/list-all-pages/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll(array $options = [])
+    public function getAll()
     {
-        return $this->getClient()->get('/sharing/pages.json', $options);
+        return $this->getClient()->get('/sharing/pages.json');
     }
 
     /**
      * Get page details by its token
      *
      * @param string $token
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/sharing/pages/read-page-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function getPageByToken($token, array $options = [])
+    public function getPageByToken($token)
     {
-        return $this->getClient()->get('/sharing/pages/' . $token . '.json', $options);
+        return $this->getClient()->get('/sharing/pages/' . $token . '.json');
     }
 
     /**
      * Get page details by its url
      *
      * @param string $url
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/sharing/pages/read-page-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function getPageByUrl($url, array $options = [])
+    public function getPageByUrl($url)
     {
-        return $this->getClient()->get('/sharing/pages/page.json?page_url=' . $url, $options);
+        return $this->getClient()->get('/sharing/pages/page.json?page_url=' . $url);
     }
 
     /**
      * List All Published Messages
      *
-     * @param array $options
+
      *
      * @see http://docs.oneall.com/api/resources/social-sharing/list-all-messages/
      *
      * @return \Oneall\Client\Response
      */
-    public function getMessages(array $options = [])
+    public function getMessages()
     {
-        return $this->getClient()->get('/sharing/messages.json', $options);
+        return $this->getClient()->get('/sharing/messages.json');
     }
 
     /**
@@ -110,7 +110,7 @@ class Sharing extends AbstractApi
      * @param array  $link
      * @param array  $uploads
      * @param bool   $enableTracking A flag to turn on/off the automatic shortening of URLs included in the post.
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/social-sharing/publish-new-message/
      *
@@ -124,8 +124,7 @@ class Sharing extends AbstractApi
         $pictureUrl = null,
         array $link = [],
         array $uploads = [],
-        $enableTracking = true,
-        array $options = []
+        $enableTracking = true
     ) {
 
         $data = [
@@ -148,22 +147,22 @@ class Sharing extends AbstractApi
         $data = $this->addInfo($data, 'request/sharing_message/parts/uploads', $uploads);
         $data = $this->addInfo($data, 'request/sharing_message/parts/link', $link);
 
-        return $this->getClient()->post('/sharing/messages.json', $data, $options);
+        return $this->getClient()->post('/sharing/messages.json', $data);
     }
 
     /**
      * Read Details Of A Message
      *
      * @param string $messageToken
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/social-sharing/read-message/
      *
      * @return \Oneall\Client\Response
      */
-    public function getMessageDetails($messageToken, array $options = [])
+    public function getMessageDetails($messageToken)
     {
-        return $this->getClient()->get('/sharing/messages/' . $messageToken . '.json', $options);
+        return $this->getClient()->get('/sharing/messages/' . $messageToken . '.json');
     }
 
     /**
@@ -172,13 +171,13 @@ class Sharing extends AbstractApi
      * @param string $messageToken
      * @param string $userToken The unique token of the user to post the content for.
      * @param array  $providers providers list : ['facebook', 'twitter']
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/social-sharing/re-publish-message/
      *
      * @return \Oneall\Client\Response
      */
-    public function republish($messageToken, $userToken, array $providers, array $options = [])
+    public function republish($messageToken, $userToken, array $providers)
     {
         $data = [
             "request" => [
@@ -191,7 +190,7 @@ class Sharing extends AbstractApi
             ]
         ];
 
-        return $this->getClient()->post('/sharing/messages/' . $messageToken . '.json', $data, $options);
+        return $this->getClient()->post('/sharing/messages/' . $messageToken . '.json', $data);
     }
 
     /**
@@ -199,13 +198,13 @@ class Sharing extends AbstractApi
      *
      * @param string $messageToken
      * @param string $identityToken The unique token of the user to post the content for.
-     * @param array  $options
+
      *
      * @see hhttp://docs.oneall.com/api/resources/social-sharing/re-publish-message/
      *
      * @return \Oneall\Client\Response
      */
-    public function republishForIdentity($messageToken, $identityToken, array $options = [])
+    public function republishForIdentity($messageToken, $identityToken)
     {
         $data = [
             "request" => [
@@ -217,23 +216,23 @@ class Sharing extends AbstractApi
             ]
         ];
 
-        return $this->getClient()->post('/sharing/messages/' . $messageToken . '.json', $data, $options);
+        return $this->getClient()->post('/sharing/messages/' . $messageToken . '.json', $data);
     }
 
     /**
      * Delete Message
      *
      * @param string $messageToken
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/social-sharing/delete-message/
      *
      * @return \Oneall\Client\Response
      */
-    public function delete($messageToken, array $options = [])
+    public function delete($messageToken)
     {
         $uri      = '/sharing/messages/' . $messageToken . '.json?confirm_deletion=true';
-        $response = $this->getClient()->delete($uri, $options);
+        $response = $this->getClient()->delete($uri);
 
         return $response;
     }

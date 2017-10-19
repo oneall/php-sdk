@@ -35,42 +35,38 @@ interface ClientInterface
      * Make a GET request
      *
      * @param string $path
-     * @param array  $options
      *
      * @return \Oneall\Client\Response
      */
-    public function get($path, $options = array());
+    public function get($path);
 
     /**
      * Make a POST request
      *
      * @param string $path
      * @param array  $data
-     * @param array  $options
      *
      * @return \Oneall\Client\Response
      */
-    public function post($path, array $data, array $options = array());
+    public function post($path, array $data);
 
     /**
      * Make a PUT request
      *
      * @param string $path
      * @param array  $data
-     * @param array  $options
      *
      *
      * @return \Oneall\Client\Response
      */
-    public function put($path, array $data, array $options = array());
+    public function put($path, array $data);
 
     /**
      * Make a DELETE request
      *
      * @param string $path
-     * @param array  $options
      *
      * @return \Oneall\Client\Response
      */
-    public function delete($path, $options = array());
+    public function delete($path);
 }

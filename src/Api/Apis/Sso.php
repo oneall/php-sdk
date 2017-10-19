@@ -44,45 +44,43 @@ class Sso extends AbstractApi
     /**
      * List All Active SSO Sessions
      *
-     * @param array $options
-     *
      * @see http://docs.oneall.com/api/resources/sso/list-all-sessions/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll(array $options = [])
+    public function getAll()
     {
-        return $this->getClient()->get('/sso/sessions.json', $options);
+        return $this->getClient()->get('/sso/sessions.json');
     }
 
     /**
      * Read SSO Session
      *
      * @param string $sessionToken
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/sso/read-session-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function get($sessionToken, array $options = [])
+    public function get($sessionToken)
     {
-        return $this->getClient()->get('/sso/sessions/' . $sessionToken . '.json', $options);
+        return $this->getClient()->get('/sso/sessions/' . $sessionToken . '.json');
     }
 
     /**
      * Read SSO Session
      *
      * @param string $sessionToken
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/sso/read-session-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function delete($sessionToken, array $options = [])
+    public function delete($sessionToken)
     {
-        return $this->getClient()->delete('/sso/sessions/' . $sessionToken . '.json?confirm_deletion=true', $options);
+        return $this->getClient()->delete('/sso/sessions/' . $sessionToken . '.json?confirm_deletion=true');
     }
 
     /**
@@ -94,7 +92,6 @@ class Sso extends AbstractApi
      * @param string|null $topRealm
      * @param string|null $subRealm
      * @param string|null $lifetime
-     * @param array       $options
      *
      * @return \Oneall\Client\Response
      */
@@ -102,8 +99,7 @@ class Sso extends AbstractApi
         $identityToken,
         $topRealm = null,
         $subRealm = null,
-        $lifetime = null,
-        array $options = []
+        $lifetime = null
     ) {
         $data = ['request' => ['sso_session' => []]];
 
@@ -111,38 +107,38 @@ class Sso extends AbstractApi
         $data = $this->addInfo($data, '/request/sso_session/sub_realm', $subRealm);
         $data = $this->addInfo($data, '/request/sso_session/lifetime', $lifetime);
 
-        return $this->getClient()->put('/sso/sessions/identities/' . $identityToken . '.json', $data, $options);
+        return $this->getClient()->put('/sso/sessions/identities/' . $identityToken . '.json', $data);
     }
 
     /**
      * Read SSO Identity Session
      *
      * @param string $identityToken
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/sso/identity/read-session/
      *
      * @return \Oneall\Client\Response
      */
-    public function readIdentitySession($identityToken, array $options = [])
+    public function readIdentitySession($identityToken)
     {
-        return $this->getClient()->get('/sso/sessions/identities/' . $identityToken . '.json', $options);
+        return $this->getClient()->get('/sso/sessions/identities/' . $identityToken . '.json');
     }
 
     /**
      * Destroy SSO Identity Session
      *
      * @param string $identityToken
-     * @param array  $options
+
      *
      * @see http://docs.oneall.com/api/resources/sso/identity/read-session/
      *
      * @return \Oneall\Client\Response
      */
-    public function destroyIdentitySession($identityToken, array $options = [])
+    public function destroyIdentitySession($identityToken)
     {
         $url      = '/sso/sessions/identities/' . $identityToken . '.json?confirm_deletion=true';
-        $response = $this->getClient()->delete($url, $options);
+        $response = $this->getClient()->delete($url);
 
         return $response;
     }
