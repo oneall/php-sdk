@@ -44,13 +44,25 @@ class Connection extends AbstractApi
     /**
      * List all connections
      *
+     * @param int    $page
+     * @param int    $entries_per_page
+     * @param string $order_direction
+     *
      * @see http://docs.oneall.com/api/resources/connections/list-all-connections/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll()
+    public function getAll($page = 1, $entries_per_page = 50, $order_direction = 'asc')
     {
-        $response = $this->getClient()->get('/connections.json');
+        $arguments = [
+            // minimum page int value : 1
+            'page=' . max(1, (int) $page),
+            // minimum entries_per_page int value : 1
+            'entries_per_page=' . max(1, (int) $entries_per_page),
+            'order_direction=' . ($order_direction == 'asc' ? 'asc' : 'desc'),
+        ];
+
+        $response = $this->getClient()->get('/connections.json?' . implode('&', $arguments));
 
         return $response;
     }
