@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -25,6 +25,7 @@
 namespace Oneall\Api\Apis;
 
 use Oneall\Api\AbstractApi;
+use Oneall\Api\Pagination;
 
 /**
  * Class Sharing
@@ -44,37 +45,46 @@ class Sharing extends AbstractApi
     /**
      * List All Shared Pages
      *
-
-     *
      * @see http://docs.oneall.com/api/resources/sharing/pages/list-all-pages/
+     *
+     * @param \Oneall\Api\Pagination|null $pagination
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll()
+    public function getAll(Pagination $pagination = null)
     {
-        return $this->getClient()->get('/sharing/pages.json');
+        if (!$pagination)
+        {
+            $pagination = new Pagination();
+        }
+
+        return $this->getClient()->get('/sharing/pages.json?' . $pagination->build());
     }
 
     /**
      * Get page details by its token
      *
-     * @param string $token
-
+     * @param string                      $token
+     * @param \Oneall\Api\Pagination|null $pagination
      *
      * @see http://docs.oneall.com/api/resources/sharing/pages/read-page-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function getPageByToken($token)
+    public function getPageByToken($token, Pagination $pagination = null)
     {
-        return $this->getClient()->get('/sharing/pages/' . $token . '.json');
+        if (!$pagination)
+        {
+            $pagination = new Pagination();
+        }
+
+        return $this->getClient()->get('/sharing/pages/' . $token . '.json?' . $pagination->build());
     }
 
     /**
      * Get page details by its url
      *
      * @param string $url
-
      *
      * @see http://docs.oneall.com/api/resources/sharing/pages/read-page-details/
      *
@@ -88,15 +98,19 @@ class Sharing extends AbstractApi
     /**
      * List All Published Messages
      *
-
      *
      * @see http://docs.oneall.com/api/resources/social-sharing/list-all-messages/
      *
      * @return \Oneall\Client\Response
      */
-    public function getMessages()
+    public function getMessages(Pagination $pagination = null)
     {
-        return $this->getClient()->get('/sharing/messages.json');
+        if (!$pagination)
+        {
+            $pagination = new Pagination();
+        }
+
+        return $this->getClient()->get('/sharing/messages.json?' . $pagination->build());
     }
 
     /**
@@ -110,7 +124,6 @@ class Sharing extends AbstractApi
      * @param array  $link
      * @param array  $uploads
      * @param bool   $enableTracking A flag to turn on/off the automatic shortening of URLs included in the post.
-
      *
      * @see http://docs.oneall.com/api/resources/social-sharing/publish-new-message/
      *
@@ -151,10 +164,56 @@ class Sharing extends AbstractApi
     }
 
     /**
+     * Publish To Social Networks
+     *
+     * @param string $identityToken  Publish for this identity
+     * @param string $text
+     * @param string $videoUrl
+     * @param string $pictureUrl
+     * @param array  $link
+     * @param array  $uploads
+     * @param bool   $enableTracking A flag to turn on/off the automatic shortening of URLs included in the post.
+     *
+     * @see http://docs.oneall.com/api/resources/social-sharing/publish-new-message/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function publishForIdentity(
+        $identityToken,
+        $text,
+        $videoUrl = null,
+        $pictureUrl = null,
+        array $link = [],
+        array $uploads = [],
+        $enableTracking = true
+    ) {
+
+        $data = [
+            "request" => [
+                "sharing_message" => [
+                    'publish_for_identity' => array(
+                        'identity_token' => $identityToken
+                    ),
+                    "parts" => [
+                        "text" => ["body" => $text],
+                        "flags" => ['enable_tracking' => $enableTracking ? 1 : 0]
+                    ]
+                ]
+            ]
+        ];
+
+        $data = $this->addInfo($data, 'request/sharing_message/parts/video/url', $videoUrl);
+        $data = $this->addInfo($data, 'request/sharing_message/parts/picture/url', $pictureUrl);
+        $data = $this->addInfo($data, 'request/sharing_message/parts/uploads', $uploads);
+        $data = $this->addInfo($data, 'request/sharing_message/parts/link', $link);
+
+        return $this->getClient()->post('/sharing/messages.json', $data);
+    }
+
+    /**
      * Read Details Of A Message
      *
      * @param string $messageToken
-
      *
      * @see http://docs.oneall.com/api/resources/social-sharing/read-message/
      *
@@ -171,7 +230,6 @@ class Sharing extends AbstractApi
      * @param string $messageToken
      * @param string $userToken The unique token of the user to post the content for.
      * @param array  $providers providers list : ['facebook', 'twitter']
-
      *
      * @see http://docs.oneall.com/api/resources/social-sharing/re-publish-message/
      *
@@ -198,7 +256,6 @@ class Sharing extends AbstractApi
      *
      * @param string $messageToken
      * @param string $identityToken The unique token of the user to post the content for.
-
      *
      * @see hhttp://docs.oneall.com/api/resources/social-sharing/re-publish-message/
      *
@@ -223,7 +280,6 @@ class Sharing extends AbstractApi
      * Delete Message
      *
      * @param string $messageToken
-
      *
      * @see http://docs.oneall.com/api/resources/social-sharing/delete-message/
      *

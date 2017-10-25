@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -50,7 +50,7 @@ class ResponseFacade
      * Merge value in array following the given path
      *
      * @param string $path path in array , separated with /
-     *²
+     *
      * @return mixed
      */
     protected function getObjectValue($path)

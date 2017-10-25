@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -25,6 +25,7 @@
 namespace Oneall\Api\Apis;
 
 use Oneall\Api\AbstractApi;
+use Oneall\Api\Pagination;
 
 /**
  * Class User
@@ -48,9 +49,14 @@ class User extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll()
+    public function getAll(Pagination $pagination = null)
     {
-        return $this->getClient()->get('/users.json');
+        if (!$pagination)
+        {
+            $pagination = null;
+        }
+
+        return $this->getClient()->get('/users.json?' . $pagination->build());
     }
 
     /**
@@ -124,7 +130,6 @@ class User extends AbstractApi
      *
      * @param string $token
      * @param bool   $disableCache
-
      *
      * @see http://docs.oneall.com/api/resources/users/read-contacts/
      *
@@ -144,21 +149,20 @@ class User extends AbstractApi
     /**
      * Publish Content For User
      *
-     * @param string $token
+     * @param string $userToken
      * @param array  $providers
      * @param string $text
      * @param string $videoUrl
      * @param string $pictureUrl
      * @param array  $link
      * @param array  $upload
-
      *
      * @see http://docs.oneall.com/api/resources/users/write-to-users-wall/
      *
      * @return \Oneall\Client\Response
      */
     public function publish(
-        $token,
+        $userToken,
         array $providers,
         $text,
         $videoUrl = null,
@@ -183,6 +187,64 @@ class User extends AbstractApi
         $data = $this->addInfo($data, 'request/message/parts/uploads', $upload);
         $data = $this->addInfo($data, 'request/message/parts/link', $link);
 
-        return $this->getClient()->post('/users/' . $token . '/publish.json', $data);
+        return $this->getClient()->post('/users/' . $userToken . '/publish.json', $data);
+    }
+
+    /**
+     * @param string $userToken
+     * @param array  $providers where to post picture
+     * @param string $uri       picture uri
+     * @param string $caption
+     * @param string $target
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pushPicture($userToken, array $providers, $uri, $caption = '', $target = '')
+    {
+        $data = [
+            'request' => [
+                'message' => [
+                    'action' => 'push_picture',
+                    'parts' => [
+                        'picture' => [
+                            'url' => $uri,
+                            'caption' => $caption,
+                            'target' => $target,
+                        ],
+                    ],
+                    'providers' => $providers
+                ]
+            ]
+        ];
+
+        return $this->getClient()->post('/users/' . $userToken . '/publish.json', $data);
+    }
+
+    /**
+     * @param string $userToken
+     * @param array  $providers
+     * @param string $uri
+     * @param string $caption
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pushVideo($userToken, array $providers, $uri, $caption = '')
+    {
+        $data = [
+            'request' => [
+                'message' => [
+                    'action' => 'push_video',
+                    'parts' => [
+                        'picture' => [
+                            'url' => $uri,
+                            'caption' => $caption
+                        ],
+                    ],
+                    'providers' => $providers
+                ]
+            ]
+        ];
+
+        return $this->getClient()->post('/users/' . $userToken . '/publish.json', $data);
     }
 }

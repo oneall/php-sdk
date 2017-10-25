@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -146,7 +146,7 @@ class Curl extends AbstractClient
 
         $this->setCurlOptions($curlHandler, $this->getOptions());
 
-        $response = curl_exec($curlHandler);
+        $response    = curl_exec($curlHandler);
         $errorNumber = curl_errno($curlHandler);
         $curlInfo    = curl_getinfo($curlHandler);
 
@@ -250,6 +250,8 @@ class Curl extends AbstractClient
 
         $this->appendOption('HTTPHEADER', 'Content-Type: application/json', true);
         $this->setOption('POSTFIELDS', $json);
+
+        var_dump($json);
 
         return $json;
     }

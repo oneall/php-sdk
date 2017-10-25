@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -25,6 +25,7 @@
 namespace Oneall\Api\Apis;
 
 use Oneall\Api\AbstractApi;
+use Oneall\Api\Pagination;
 
 /**
  * Class Identity
@@ -44,14 +45,20 @@ class Identity extends AbstractApi
     /**
      * List all identities
      *
+     * @param \Oneall\Api\Pagination|null $pagination
      *
      * @see http://docs.oneall.com/api/resources/identities/list-all-identities/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll()
+    public function getAll(Pagination $pagination = null)
     {
-        return $this->getClient()->get('/identities.json');
+        if (!$pagination)
+        {
+            $pagination = new Pagination();
+        }
+
+        return $this->getClient()->get('/identities.json?' . $pagination->build());
     }
 
     /**
@@ -132,14 +139,29 @@ class Identity extends AbstractApi
     /**
      * Read Identity Contacts
      *
-     * @param string $identityToken
+     * @param string                      $identityToken
+     * @param \Oneall\Api\Pagination|null $pagination
+     * @param bool                        $disable_cache
      *
      * @see http://docs.oneall.com/api/resources/identities/read-contacts/
      *
      * @return \Oneall\Client\Response
      */
-    public function getContacts($identityToken)
+    public function getContacts($identityToken, Pagination $pagination = null, $disable_cache = false)
     {
-        return $this->getClient()->get('/identities/' . $identityToken . '/contacts.json');
+        if (!$pagination)
+        {
+            $pagination = new Pagination();
+        }
+
+        $cache = 'disable_cache=false';
+        if ($disable_cache)
+        {
+            $cache = 'disable_cache=true';
+        }
+
+        $uri = '/identities/' . $identityToken . '/contacts.json?' . $cache . '&' . $pagination->build();
+
+        return $this->getClient()->get($uri);
     }
 }

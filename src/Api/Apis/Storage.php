@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -52,7 +52,6 @@ class Storage extends AbstractApi
      * @param string $login
      * @param string $password
      * @param array  $identity
-
      *
      * @see http://docs.oneall.com/api/resources/storage/users/create-user/
      *
@@ -88,7 +87,6 @@ class Storage extends AbstractApi
      * @param string $password
      * @param array  $identity
      * @param string $mode
-
      *
      * @see http://docs.oneall.com/api/resources/storage/users/update-user/
      *
@@ -150,7 +148,6 @@ class Storage extends AbstractApi
      * Look up user by its external id.
      *
      * @param mixed $externalId
-
      *
      * @see http://docs.oneall.com/api/resources/storage/users/lookup-user/
      *

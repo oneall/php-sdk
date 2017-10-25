@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -25,6 +25,7 @@
 namespace Oneall\Api\Apis;
 
 use Oneall\Api\AbstractApi;
+use Oneall\Api\Pagination;
 
 /**
  * Class ShortUrl
@@ -44,22 +45,26 @@ class ShortUrl extends AbstractApi
     /**
      * List All Shortened URLs
      *
-
+     * @param \Oneall\Api\Pagination|null $pagination
      *
      * @see http://docs.oneall.com/api/resources/shorturls/list-all-shorturls/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll()
+    public function getAll(\Oneall\Api\Pagination $pagination = null)
     {
-        return $this->getClient()->get('/shorturls.json');
+        if (!$pagination)
+        {
+            $pagination = new Pagination();
+        }
+
+        return $this->getClient()->get("/shorturls.json?" . $pagination->build());
     }
 
     /**
      * Shorten An URL
      *
      * @param string $url
-
      *
      * @see http://docs.oneall.com/api/resources/shorturls/create-shorturl/
      *
@@ -82,7 +87,6 @@ class ShortUrl extends AbstractApi
      * Read Details Of A Shortened URL
      *
      * @param string $token
-
      *
      * @see http://docs.oneall.com/api/resources/shorturls/read-shorturl-details/
      *
@@ -97,7 +101,6 @@ class ShortUrl extends AbstractApi
      * Delete A Shortened URL
      *
      * @param string $token
-
      *
      * @see http://docs.oneall.com/api/resources/shorturls/delete-shorturl/
      *

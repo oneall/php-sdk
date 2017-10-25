@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -28,6 +28,7 @@ use Oneall\Api\AbstractApi;
 use Oneall\Api\Apis\Provider\Facebook;
 use Oneall\Api\Apis\Provider\Steam;
 use Oneall\Api\Apis\Provider\Youtube;
+use Oneall\Api\Pagination;
 use Oneall\Client\ClientInterface;
 use Oneall\Exception\ProviderApiNotFound;
 
@@ -68,15 +69,19 @@ class Provider extends AbstractApi
     /**
      * List All Providers
      *
-
      *
      * @see http://docs.oneall.com/api/resources/providers/list-all-providers/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll()
+    public function getAll(Pagination $pagination = null)
     {
-        return $this->getClient()->get('/providers.json');
+        if (!$pagination)
+        {
+            $pagination = null;
+        }
+
+        return $this->getClient()->get('/providers.json?' . $pagination->build());
     }
 
     /**

@@ -27,33 +27,55 @@ namespace Oneall\Api\Apis\Provider;
 use Oneall\Api\AbstractApi;
 
 /**
- * Class Youtube
- *
- * This provider is used for all interaction with Youtube provider.
+ * Class LinkedIn
  *
  * @package Oneall\Api\Apis\Provider
  */
-class Youtube extends AbstractApi
+class LinkedIn extends AbstractApi
 {
     /**
      * {@inheritdoc}
      */
     public function getName()
     {
-        return 'youtube';
+        return 'linkedin';
     }
 
     /**
-     * Youtube \ List Videos
+     * @param string      $identityToken
+     * @param string      $link
+     * @param string|null $title
+     * @param string|null $description
+     * @param string|null $message
+     * @param string|null $pictureUrl
      *
-     * @param string $identityToken
-     *
-     * @see http://docs.oneall.com/api/resources/identities/youtube/list-videos/
+     * @see http://docs.oneall.com/api/resources/push/linkedin/post/
      *
      * @return \Oneall\Client\Response
      */
-    public function getVideos($identityToken)
-    {
-        return $this->getClient()->get('/identities/' . $identityToken . '/youtube/videos.json');
+    public function publish(
+        $identityToken,
+        $link,
+        $title = null,
+        $description = null,
+        $message = null,
+        $pictureUrl = null
+    ) {
+        $data = [
+            "request" => [
+                "push" => [
+                    "post" => [
+                        "link" => $link,
+                    ]
+                ]
+            ]
+        ];
+
+        $this->addInfo($data, "request/push/post/description", $description);
+        $this->addInfo($data, "request/push/post/message", $message);
+        $this->addInfo($data, "request/push/post/title", $title);
+        $this->addInfo($data, "request/push/post/picture", $pictureUrl);
+
+        return $this->getClient()->post('/push/identities/' . $identityToken . '/linkedin/post.json', $data);
     }
 }

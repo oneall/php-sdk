@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -25,6 +25,7 @@
 namespace Oneall\Api\Apis;
 
 use Oneall\Api\AbstractApi;
+use Oneall\Api\Pagination;
 
 /**
  * Class Analytics
@@ -51,10 +52,15 @@ class Analytics extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll($identityToken = null, $userToken = null)
+    public function getAll(Pagination $pagination = null, $identityToken = null, $userToken = null)
     {
-        $uri   = '/sharing/analytics/snapshots.json';
         $query = [];
+
+        if (!$pagination)
+        {
+            $pagination = new Pagination();
+        }
+        $uri = '/sharing/analytics/snapshots.json?' . $pagination->build();
 
         if ($identityToken)
         {
@@ -68,7 +74,7 @@ class Analytics extends AbstractApi
 
         if (!empty($query))
         {
-            $uri .= '?' . http_build_query($query);
+            $uri .= '&' . http_build_query($query);
         }
 
         $response = $this->getClient()->get($uri);
@@ -79,25 +85,29 @@ class Analytics extends AbstractApi
     /**
      * Schedule A Data Snapshot
      *
-     * @param string $messageToken
-     * @param string $pingbackUri
+     * If the ping back uri is set, we'll send it the newly created snapshot once created.
+     *
+     * @param string      $messageToken
+     * @param string|null $pingBackUri
      *
      * @see http://docs.oneall.com/api/resources/sharing-analytics/initiate-snapshot/
      *
      * @return \Oneall\Client\Response
      */
-    public function initiate($messageToken, $pingbackUri)
+    public function initiate($messageToken, $pingBackUri = null)
     {
         $data = [
             'request' => [
                 'analytics' => [
                     'sharing' => [
                         'sharing_message_token' => $messageToken,
-                        'pingback_uri' => $pingbackUri
+                        'pingback_uri' => $pingBackUri
                     ]
                 ]
             ]
         ];
+
+        $this->addInfo($data, 'request/analytics/sharing/pingback_uri', $pingBackUri);
 
         return $this->getClient()->put('/sharing/analytics/snapshots.json', $data);
     }
@@ -113,7 +123,6 @@ class Analytics extends AbstractApi
      */
     public function get($snapshotToken)
     {
-
         return $this->getClient()->get('/sharing/analytics/snapshots/' . $snapshotToken . '.json');
     }
 

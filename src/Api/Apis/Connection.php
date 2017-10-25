@@ -1,7 +1,6 @@
 <?php
-
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -25,6 +24,7 @@
 namespace Oneall\Api\Apis;
 
 use Oneall\Api\AbstractApi;
+use Oneall\Api\Pagination;
 
 /**
  * Class Connection
@@ -44,25 +44,15 @@ class Connection extends AbstractApi
     /**
      * List all connections
      *
-     * @param int    $page
-     * @param int    $entries_per_page
-     * @param string $order_direction
+     * @param \Oneall\Api\Pagination|null $pagination
      *
      * @see http://docs.oneall.com/api/resources/connections/list-all-connections/
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll($page = 1, $entries_per_page = 50, $order_direction = 'asc')
+    public function getAll(Pagination $pagination = null)
     {
-        $arguments = [
-            // minimum page int value : 1
-            'page=' . max(1, (int) $page),
-            // minimum entries_per_page int value : 1
-            'entries_per_page=' . max(1, (int) $entries_per_page),
-            'order_direction=' . ($order_direction == 'asc' ? 'asc' : 'desc'),
-        ];
-
-        $response = $this->getClient()->get('/connections.json?' . implode('&', $arguments));
+        $response = $this->getClient()->get('/connections.json?' . $pagination->build());
 
         return $response;
     }
@@ -78,7 +68,7 @@ class Connection extends AbstractApi
      */
     public function get($token)
     {
-        $response = $this->getClient()->get(' / connections / ' . $token . ' . json');
+        $response = $this->getClient()->get('/connections/' . $token . '.json');
 
         return $response;
     }

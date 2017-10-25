@@ -22,28 +22,54 @@
  * The "GNU General Public License" (GPL) is available at http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Oneall\Exception;
+namespace Oneall\Api\Apis;
+
+use Oneall\Api\AbstractApi;
 
 /**
- * Class BadResponseException
+ * Class Site
  *
- * @package Oneall\Exception
+ * @package Oneall\Api\Apis
  */
-class BadResponseException extends \RuntimeException
+class Site extends AbstractApi
 {
     /**
-     * BadResponseException constructor.
-     *
-     * @param string $path
-     * @param null   $errorMessage
+     * {@inheritdoc}
      */
-    public function __construct($path, $errorMessage = null)
+    public function getName()
     {
-        $message = 'Unable to decode response received from path "' . $path . '".';
-        if ($errorMessage)
-        {
-            $message .= ' Error : ' . $errorMessage;
-        }
-        parent::__construct($message);
+        return 'site';
+    }
+
+    /**
+     * List all allowed domains
+     *
+     * @see https://docs.oneall.com/api/resources/site/allowed-domains/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function getAllowedDomains()
+    {
+        return $this->getClient()->get('/site/allowed-domains.json');
+    }
+
+    /**
+     * Add allowed domains
+     *
+     * @param array $domains
+     *
+     * @see http://docs.oneall.com/api/resources/sites/read-site-details/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function addAllowedDomains(array $domains)
+    {
+        $data = [
+            'request' => [
+                'allowed_domains' => $domains
+            ]
+        ];
+
+        return $this->getClient()->put('/site/allowed-domains.json', $data);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package      Oneall Single Sign-On
+ * @package      Oneall PHP SDK
  * @copyright    Copyright 2017-Present http://www.oneall.com
  * @license      GNU/GPL 2 or later
  *
@@ -25,6 +25,7 @@
 namespace Oneall\Api\Apis;
 
 use Oneall\Api\AbstractApi;
+use Oneall\Api\Pagination;
 
 /**
  * Class Sso
@@ -48,16 +49,20 @@ class Sso extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll()
+    public function getAll(Pagination $pagination = null)
     {
-        return $this->getClient()->get('/sso/sessions.json');
+        if (!$pagination)
+        {
+            $pagination = null;
+        }
+
+        return $this->getClient()->get('/sso/sessions.json?' . $pagination->build());
     }
 
     /**
      * Read SSO Session
      *
      * @param string $sessionToken
-
      *
      * @see http://docs.oneall.com/api/resources/sso/read-session-details/
      *
@@ -72,7 +77,6 @@ class Sso extends AbstractApi
      * Read SSO Session
      *
      * @param string $sessionToken
-
      *
      * @see http://docs.oneall.com/api/resources/sso/read-session-details/
      *
@@ -114,7 +118,6 @@ class Sso extends AbstractApi
      * Read SSO Identity Session
      *
      * @param string $identityToken
-
      *
      * @see http://docs.oneall.com/api/resources/sso/identity/read-session/
      *
@@ -129,7 +132,6 @@ class Sso extends AbstractApi
      * Destroy SSO Identity Session
      *
      * @param string $identityToken
-
      *
      * @see http://docs.oneall.com/api/resources/sso/identity/read-session/
      *
