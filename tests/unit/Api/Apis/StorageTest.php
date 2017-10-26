@@ -98,7 +98,7 @@ class StorageTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('post')
-                     ->with('/storage/users.json', $data, $this->options)
+                     ->with('/storage/users.json', $data)
                      ->willReturn($this->response)
         ;
 
@@ -157,7 +157,7 @@ class StorageTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('put')
-                     ->with('/storage/users/my-token.json', $data, $this->options)
+                     ->with('/storage/users/my-token.json', $data)
                      ->willReturn($this->response)
         ;
 
@@ -199,11 +199,11 @@ class StorageTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('post')
-                     ->with('/storage/users/user/lookup.json', $data, $this->options)
+                     ->with('/storage/users/user/lookup.json', $data)
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->lookUpById(123, $this->options));
+        $this->assertSame($this->response, $this->sut->lookUpById(123));
     }
 
     public function testlookUpByCredentials()
@@ -219,11 +219,11 @@ class StorageTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('post')
-                     ->with('/storage/users/user/lookup.json', $data, $this->options)
+                     ->with('/storage/users/user/lookup.json', $data)
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->lookUpByCredentials('my-login', 'my-password', $this->options));
+        $this->assertSame($this->response, $this->sut->lookUpByCredentials('my-login', 'my-password'));
     }
 
 }

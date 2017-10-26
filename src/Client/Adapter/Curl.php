@@ -251,8 +251,6 @@ class Curl extends AbstractClient
         $this->appendOption('HTTPHEADER', 'Content-Type: application/json', true);
         $this->setOption('POSTFIELDS', $json);
 
-        var_dump($json);
-
         return $json;
     }
 

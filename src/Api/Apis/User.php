@@ -53,7 +53,7 @@ class User extends AbstractApi
     {
         if (!$pagination)
         {
-            $pagination = null;
+            $pagination = new Pagination();
         }
 
         return $this->getClient()->get('/users.json?' . $pagination->build());

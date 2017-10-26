@@ -53,7 +53,7 @@ class Sso extends AbstractApi
     {
         if (!$pagination)
         {
-            $pagination = null;
+            $pagination = new Pagination();
         }
 
         return $this->getClient()->get('/sso/sessions.json?' . $pagination->build());

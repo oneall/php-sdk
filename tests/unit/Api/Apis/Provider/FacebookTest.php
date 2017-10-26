@@ -54,22 +54,44 @@ class FacebookTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/identities/my-token/facebook/posts.json', $this->options)
+                     ->with('/identities/my-token/facebook/posts.json?' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getPosts('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->getPosts('my-token'));
+    }
+
+    public function testGetPostsWithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/identities/my-token/facebook/posts.json?' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getPosts('my-token', $this->pagination));
     }
 
     public function testGetPages()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/providers/facebook/pages.json', $this->options)
+                     ->with('/providers/facebook/pages.json?' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getPages($this->options));
+        $this->assertSame($this->response, $this->sut->getPages());
+    }
+
+    public function testGetPageswithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/providers/facebook/pages.json?' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getPages($this->pagination));
     }
 
     public function testPublish()
@@ -93,11 +115,11 @@ class FacebookTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('post')
-                     ->with('/providers/facebook/pages/my-token/publish.json', $data, $this->options)
+                     ->with('/providers/facebook/pages/my-token/publish.json', $data)
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->publish($token, $text, $link, $picture, $this->options));
+        $this->assertSame($this->response, $this->sut->publish($token, $text, $link, $picture));
     }
 
     public function testPublishOnlyText()

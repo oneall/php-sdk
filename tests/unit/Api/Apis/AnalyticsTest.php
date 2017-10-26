@@ -21,6 +21,7 @@
  *
  * The "GNU General Public License" (GPL) is available at http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
+
 namespace Oneall\Test\Api\Apis;
 
 use Oneall\Api\Apis\Analytics;
@@ -51,22 +52,22 @@ class AnalyticsTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sharing/analytics/snapshots.json', $this->options)
+                     ->with('/sharing/analytics/snapshots.json?' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getAll(null, null, $this->options));
+        $this->assertSame($this->response, $this->sut->getAll());
     }
 
-    public function testGetAllWithToken()
+    public function testGetAllWithOptions()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sharing/analytics/snapshots.json?identity_token=a&user_token=b', $this->options)
+                     ->with('/sharing/analytics/snapshots.json?' . $this->pagination->build() . '&identity_token=a&user_token=b')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getAll('a', 'b', $this->options));
+        $this->assertSame($this->response, $this->sut->getAll($this->pagination, 'a', 'b'));
     }
 
     public function testInitiate()
@@ -83,33 +84,32 @@ class AnalyticsTest extends TestingApi
         ];
         $this->client->expects($this->once())
                      ->method('put')
-                     ->with('/sharing/analytics/snapshots.json', $data, $this->options)
+                     ->with('/sharing/analytics/snapshots.json', $data)
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->initiate('my-token', 'my-uri', $this->options));
+        $this->assertSame($this->response, $this->sut->initiate('my-token', 'my-uri'));
     }
 
     public function testGet()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sharing/analytics/snapshots/my-token.json', $this->options)
+                     ->with('/sharing/analytics/snapshots/my-token.json')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->get('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->get('my-token'));
     }
-
 
     public function testDelete()
     {
         $this->client->expects($this->once())
                      ->method('delete')
-                     ->with('/sharing/analytics/snapshots/my-token.json?confirm_deletion=true', $this->options)
+                     ->with('/sharing/analytics/snapshots/my-token.json?confirm_deletion=true')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->delete('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->delete('my-token'));
     }
 }

@@ -57,21 +57,31 @@ class ConnectionTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/connections.json', $this->options)
+                     ->with('/connections.json?'. $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getAll($this->options));
+        $this->assertSame($this->response, $this->sut->getAll());
+    }
+    public function testGetAllwithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/connections.json?'. $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getAll($this->pagination));
     }
 
     public function testGet()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/connections/my-token.json', $this->options)
+                     ->with('/connections/my-token.json')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->get('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->get('my-token'));
     }
 }

@@ -53,11 +53,11 @@ class SteamTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/identities/my-token/steam/games.json', $this->options)
+                     ->with('/identities/my-token/steam/games.json')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getGames('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->getGames('my-token'));
     }
 
 }

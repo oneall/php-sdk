@@ -78,7 +78,7 @@ class Provider extends AbstractApi
     {
         if (!$pagination)
         {
-            $pagination = null;
+            $pagination = new Pagination();
         }
 
         return $this->getClient()->get('/providers.json?' . $pagination->build());

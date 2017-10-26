@@ -57,33 +57,44 @@ class IdentityTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/identities.json', $this->options)
+                     ->with('/identities.json?' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getAll($this->options));
+        $this->assertSame($this->response, $this->sut->getAll());
+    }
+
+    public function testGetAllwithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/identities.json?' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getAll($this->pagination));
     }
 
     public function testGet()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/identities/my-token.json', $this->options)
+                     ->with('/identities/my-token.json')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->get('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->get('my-token'));
     }
 
     public function testDelete()
     {
         $this->client->expects($this->once())
                      ->method('delete')
-                     ->with('/identities/my-token.json?confirm_deletion=true', $this->options)
+                     ->with('/identities/my-token.json?confirm_deletion=true')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->delete('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->delete('my-token'));
     }
 
     public function testRelink()
@@ -98,11 +109,11 @@ class IdentityTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('put')
-                     ->with('/identities/my-token/link.json', $data, $this->options)
+                     ->with('/identities/my-token/link.json', $data)
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->relink('my-token', 'user-token', $this->options));
+        $this->assertSame($this->response, $this->sut->relink('my-token', 'user-token'));
     }
 
     public function testSynchronizeWithDefaultValue()
@@ -138,11 +149,11 @@ class IdentityTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('put')
-                     ->with('/identities/my-token/synchronize.json', $data, $this->options)
+                     ->with('/identities/my-token/synchronize.json', $data)
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->synchronize('my-token', true, true, $this->options));
+        $this->assertSame($this->response, $this->sut->synchronize('my-token', true, true));
     }
 
     public function testSynchronizeWithFalseValues()
@@ -158,21 +169,32 @@ class IdentityTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('put')
-                     ->with('/identities/my-token/synchronize.json', $data, $this->options)
+                     ->with('/identities/my-token/synchronize.json', $data)
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->synchronize('my-token', false, false, $this->options));
+        $this->assertSame($this->response, $this->sut->synchronize('my-token', false, false));
     }
 
     public function testGetContacts()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/identities/my-token/contacts.json', $this->options)
+                     ->with('/identities/my-token/contacts.json?disable_cache=false&' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getContacts('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->getContacts('my-token'));
+    }
+
+    public function testGetContactsWithOptions()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/identities/my-token/contacts.json?disable_cache=true&' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getContacts('my-token', $this->pagination, true));
     }
 }

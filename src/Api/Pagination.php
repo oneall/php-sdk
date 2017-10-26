@@ -175,7 +175,7 @@ class Pagination
      */
     public function setOrder($order)
     {
-        if ($order != 'desc')
+        if ($order !== 'desc')
         {
             $order = 'asc';
         }

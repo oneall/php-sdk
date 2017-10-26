@@ -97,7 +97,7 @@ class AbstractClientTest extends \PHPUnit_Framework_TestCase
         $this->setProperty($this->sut,'subDomain', 'testing');
         $this->setProperty($this->sut,'baseDomain', 'example.com');
 
-        $this->assertEquals('testing.example.com', $this->sut->getDomain());
+        $this->assertEquals('testing.api.example.com', $this->sut->getDomain());
     }
 
     public function testGetHost()
@@ -105,7 +105,7 @@ class AbstractClientTest extends \PHPUnit_Framework_TestCase
         $this->setProperty($this->sut,'subDomain', 'subdomain');
         $this->setProperty($this->sut,'baseDomain', 'domain.lu');
 
-        $this->assertEquals('ftp://subdomain.domain.lu', $this->sut->getHost());
+        $this->assertEquals('ftp://subdomain.api.domain.lu', $this->sut->getHost());
     }
 
     public function testConstructor()

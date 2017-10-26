@@ -54,11 +54,11 @@ class YoutubeTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/identities/my-token/youtube/videos.json', $this->options)
+                     ->with('/identities/my-token/youtube/videos.json')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getVideos('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->getVideos('my-token'));
     }
 
 }

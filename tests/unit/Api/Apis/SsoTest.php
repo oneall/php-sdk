@@ -57,33 +57,44 @@ class SsoTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sso/sessions.json', $this->options)
+                     ->with('/sso/sessions.json?' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getAll($this->options));
+        $this->assertSame($this->response, $this->sut->getAll());
+    }
+
+    public function testGetAllWithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/sso/sessions.json?' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getAll($this->pagination));
     }
 
     public function testGet()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sso/sessions/my-token.json', $this->options)
+                     ->with('/sso/sessions/my-token.json')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->get('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->get('my-token'));
     }
 
     public function testDelete()
     {
         $this->client->expects($this->once())
                      ->method('delete')
-                     ->with('/sso/sessions/my-token.json?confirm_deletion=true', $this->options)
+                     ->with('/sso/sessions/my-token.json?confirm_deletion=true')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->delete('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->delete('my-token'));
     }
 
     public function testStartIdentitySession()
@@ -113,13 +124,13 @@ class SsoTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('put')
-                     ->with('/sso/sessions/identities/my-token.json', $data, $this->options)
+                     ->with('/sso/sessions/identities/my-token.json', $data)
                      ->willReturn($this->response)
         ;
 
         $this->assertSame(
             $this->response,
-            $this->sut->startIdentitySession('my-token', 'top_realm', 'sub_realm', 'lifetime', $this->options)
+            $this->sut->startIdentitySession('my-token', 'top_realm', 'sub_realm', 'lifetime')
         );
     }
 
@@ -127,21 +138,21 @@ class SsoTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sso/sessions/identities/my-token.json', $this->options)
+                     ->with('/sso/sessions/identities/my-token.json')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->readIdentitySession('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->readIdentitySession('my-token'));
     }
 
     public function testdestroyIdentitySession()
     {
         $this->client->expects($this->once())
                      ->method('delete')
-                     ->with('/sso/sessions/identities/my-token.json?confirm_deletion=true', $this->options)
+                     ->with('/sso/sessions/identities/my-token.json?confirm_deletion=true')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->destroyIdentitySession('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->destroyIdentitySession('my-token'));
     }
 }

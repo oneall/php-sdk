@@ -55,24 +55,36 @@ class UserTest extends TestingApi
 
     public function testGetAll()
     {
+        $query = $this->getDefaultPaginationQuery();
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/users.json', $this->options)
+                     ->with('/users.json?' . $query)
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getAll($this->options));
+        $this->assertSame($this->response, $this->sut->getAll());
+    }
+
+    public function testGetAllWithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/users.json?' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getAll($this->pagination));
     }
 
     public function testGet()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/users/my-token.json', $this->options)
+                     ->with('/users/my-token.json')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->get('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->get('my-token'));
     }
 
     public function testCreateUser()
@@ -127,7 +139,7 @@ class UserTest extends TestingApi
 
         $this->assertSame(
             $this->response,
-            $this->sut->createUser('provider-key', 'access-token', 'user_token', 'access-token-secret', $this->options)
+            $this->sut->createUser('provider-key', 'access-token', 'user_token', 'access-token-secret')
         );
     }
 
@@ -136,11 +148,11 @@ class UserTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('delete')
-                     ->with('/users/my-token.json?confirm_deletion=true', $this->options)
+                     ->with('/users/my-token.json?confirm_deletion=true')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->delete('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->delete('my-token'));
     }
 
     public function testGetContacts()
@@ -160,11 +172,11 @@ class UserTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/users/my-token/contacts.json?disable_cache=true', $this->options)
+                     ->with('/users/my-token/contacts.json?disable_cache=true')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getContacts('my-token', true, $this->options));
+        $this->assertSame($this->response, $this->sut->getContacts('my-token', true));
     }
 
     public function testPublish()
@@ -207,9 +219,9 @@ class UserTest extends TestingApi
                 "message" => [
                     "providers" => ['facebook'],
                     "parts" => [
-                        "text" => ["body" => 'my-text'],
-                        'video' => ['url' => 'my-video-url'],
-                        'picture' => ['url' => 'my-picture-url'],
+                        "text" => ["body" => 'text'],
+                        'video' => ['url' => 'video-url'],
+                        'picture' => ['url' => 'picture-url'],
                         'link' => $link,
                         'uploads' => $uploads,
                     ]
@@ -219,14 +231,13 @@ class UserTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('post')
-                     ->with('/users/my-token/publish.json', $data, $this->options)
+                     ->with('/users/my-token/publish.json', $data)
                      ->willReturn($this->response)
         ;
 
         $this->assertSame(
             $this->response,
-            $this->sut->publish('my-token', ['facebook'], 'my-text', 'my-video-url', 'my-picture-url', $link, $uploads,
-                                $this->options)
+            $this->sut->publish('my-token', ['facebook'], 'text', 'video-url', 'picture-url', $link, $uploads)
         );
     }
 }

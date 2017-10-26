@@ -69,11 +69,22 @@ class ProviderTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/providers.json', $this->options)
+                     ->with('/providers.json?' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getAll($this->options));
+        $this->assertSame($this->response, $this->sut->getAll());
+    }
+
+    public function testGetAllWithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/providers.json?' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getAll($this->pagination));
     }
 
     public function testHasProvider()

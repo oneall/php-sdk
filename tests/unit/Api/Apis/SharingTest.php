@@ -57,55 +57,88 @@ class SharingTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sharing/pages.json', $this->options)
+                     ->with('/sharing/pages.json?' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getAll($this->options));
+        $this->assertSame($this->response, $this->sut->getAll());
+    }
+
+    public function testGetAllWithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/sharing/pages.json?' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getAll($this->pagination));
     }
 
     public function testGetPageByToken()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sharing/pages/my-token.json', $this->options)
+                     ->with('/sharing/pages/my-token.json?' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getPageByToken('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->getPageByToken('my-token'));
+    }
+
+    public function testGetPageByTokenWithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/sharing/pages/my-token.json?' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getPageByToken('my-token', $this->pagination));
     }
 
     public function testGetPageByUrl()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sharing/pages/page.json?page_url=my-url', $this->options)
+                     ->with('/sharing/pages/page.json?page_url=my-url')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getPageByUrl('my-url', $this->options));
+        $this->assertSame($this->response, $this->sut->getPageByUrl('my-url'));
     }
 
     public function testGetMessages()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sharing/messages.json', $this->options)
+                     ->with('/sharing/messages.json?' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getMessages($this->options));
+        $this->assertSame($this->response, $this->sut->getMessages());
+    }
+
+    public function testGetMessagesWithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/sharing/messages.json?' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getMessages($this->pagination));
     }
 
     public function testGetMessagesDetails()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/sharing/messages/my-token.json', $this->options)
+                     ->with('/sharing/messages/my-token.json')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getMessageDetails('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->getMessageDetails('my-token'));
     }
 
     public function testpublish()
@@ -167,7 +200,7 @@ class SharingTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('post')
-                     ->with('/sharing/messages.json', $data, $this->options)
+                     ->with('/sharing/messages.json', $data)
                      ->willReturn($this->response)
         ;
 
@@ -247,11 +280,11 @@ class SharingTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('delete')
-                     ->with('/sharing/messages/my-token.json?confirm_deletion=true', $this->options)
+                     ->with('/sharing/messages/my-token.json?confirm_deletion=true')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->delete('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->delete('my-token'));
     }
 
 }

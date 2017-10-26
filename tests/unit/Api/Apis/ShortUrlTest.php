@@ -57,33 +57,44 @@ class ShorturlTest extends TestingApi
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/shorturls.json', $this->options)
+                     ->with('/shorturls.json?' . $this->getDefaultPaginationQuery())
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->getAll($this->options));
+        $this->assertSame($this->response, $this->sut->getAll());
+    }
+
+    public function testGetAllwithPagination()
+    {
+        $this->client->expects($this->once())
+                     ->method('get')
+                     ->with('/shorturls.json?' . $this->pagination->build())
+                     ->willReturn($this->response)
+        ;
+
+        $this->assertSame($this->response, $this->sut->getAll($this->pagination));
     }
 
     public function testGet()
     {
         $this->client->expects($this->once())
                      ->method('get')
-                     ->with('/shorturls/my-token.json', $this->options)
+                     ->with('/shorturls/my-token.json')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->get('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->get('my-token'));
     }
 
     public function testDelete()
     {
         $this->client->expects($this->once())
                      ->method('delete')
-                     ->with('/shorturls/my-token.json?confirm_deletion=true', $this->options)
+                     ->with('/shorturls/my-token.json?confirm_deletion=true')
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->delete('my-token', $this->options));
+        $this->assertSame($this->response, $this->sut->delete('my-token'));
     }
 
     public function testCreate()
@@ -98,10 +109,10 @@ class ShorturlTest extends TestingApi
 
         $this->client->expects($this->once())
                      ->method('post')
-                     ->with('/shorturls.json', $data, $this->options)
+                     ->with('/shorturls.json', $data)
                      ->willReturn($this->response)
         ;
 
-        $this->assertSame($this->response, $this->sut->create('my-url', $this->options));
+        $this->assertSame($this->response, $this->sut->create('my-url'));
     }
 }

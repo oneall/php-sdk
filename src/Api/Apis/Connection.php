@@ -52,6 +52,10 @@ class Connection extends AbstractApi
      */
     public function getAll(Pagination $pagination = null)
     {
+        if (!$pagination)
+        {
+            $pagination = new Pagination();
+        }
         $response = $this->getClient()->get('/connections.json?' . $pagination->build());
 
         return $response;
