@@ -37,29 +37,47 @@ class Twitter extends AbstractApi
     }
 
     /**
-     * List tweets
+     * List tweets by user
      *
-     * @see http://docs.oneall.com/api/resources/identities/steam/list-games/
+     * @see http://docs.oneall.com/api/resources/social-network/twitter/search/
      *
-     * @param null|string $search_by
-     * @param null|string $hash
      * @param null|string $user_id
      * @param null|string $screen_name
      * @param int         $count
      *
      * @return \Oneall\Client\Response|string
      */
-    public function search($search_by = null, $hash = null, $user_id = null, $screen_name = null, $count = 100)
+    public function searchByUser($user_id = null, $screen_name = null, $count = 100)
     {
         $parameters = [
-            'search_by' => $search_by,
-            'hash' => $hash,
             'count' => $count,
             'screen_name' => $screen_name,
             'user_id' => $user_id,
         ];
 
         $query_parameters = http_build_query(array_filter($parameters));
+        $uri              = '/site/providers/twitter/tweets/search-by-user.json';
+        if ($query_parameters)
+        {
+            $uri .= '?' . $query_parameters;
+        }
+
+        return $this->getClient()->get($uri);
+    }
+
+    /**
+     * List tweets
+     *
+     * @see http://docs.oneall.com/api/resources/social-network/twitter/search/
+     *
+     * @param string $query
+     * @param int    $count
+     *
+     * @return \Oneall\Client\Response|string
+     */
+    public function search($query, $count = 100)
+    {
+        $query_parameters = http_build_query(array_filter(['query' => $query, 'count' => $count]));
         $uri              = '/site/providers/twitter/tweets/search.json';
         if ($query_parameters)
         {
@@ -124,5 +142,4 @@ class Twitter extends AbstractApi
 
         return $this->getClient()->post('/push/identities/' . $identityToken . '/twitter/post.json', $data);
     }
-
 }
