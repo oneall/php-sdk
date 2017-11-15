@@ -1,10 +1,10 @@
 OneAll PHP SDK
 ==============
 
+The SDK allows you to communicate with the OneAll API using PHP. It implements all API features through a curl or socket (FSockOpen) client. Implementation examples are available in the [oneall/php-api-examples](https://github.com/oneall/php-api-examples) repository.
+
 ## Getting Started
 
-This SDK allows you to communicate with the OneAll API using PHP. The SDK implements all API features through a curl or socket (FSockOpen) client. Implementation examples are available in the [oneall/api-php-example](https://github.com/oneall/api-php-example) 
-repository.
 
 ### Prerequisites
 
