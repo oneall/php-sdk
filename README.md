@@ -20,10 +20,55 @@ The SDK allows you to communicate with the OneAll API using PHP. It implements a
 > ./vendor/bin/phpunit tests/unit --coverage-html tests/results/unit
 
 
+Using our PHP-SDK
+-----------------
+
+The PHP-SDK is composed of
+* PHP clients (curl & FSockOpen) & a builder
+* Apis object to use our differents endpoints.
+* An ApiContainer containing all Apis object.
+
+### Get you configuration
+
+In order to use the PHP-SDK, you'll need your application credentials you can find on [our website](app.oneall.com).
+
+    $subDomain = 'your-subdomain';
+    $sitePublicKey = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
+    $sitePrivateKey = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
+
+### Create the client
+
+First, you'll have to create a php client which contains the previous credentials. You can choose between *curl or 
+*fsockopen*, depending on your system.
+
+    // create the client through our builder
+    $builder = new Oneall\Client\Builder();
+    $client = $builder->build('curl', $subDomain, $sitePublicKey, $sitePrivateKey);
+    
+    // Or build it directly
+    $curlClient = new \Oneall\Client\Adapter\Curl($subDomain, $sitePublicKey, $sitePrivateKey);
+
+### Use our API objects
+
+Finally, instantiate the ApiObject you need (checkout our [api documentation](http://docs.oneall.com/api/resources/)
+for more details). Each ApiObject needs the client in order to interact (and automatically log in) with ours services.
+
+    $connectionApi = new \Oneall\Api\Apis\Connection($client);
+    $connections = $api->getConnectionApi()->getAll();
+
+You may use our ApiContainer to ease their instantiation.
+
+    $api = new \Oneall\OneallApi($client);
+    $connections = $api->getConnectionApi()->getAll();
+    
+
 Documentation
 -------------
 
-You can find additional information in our [documentation](http://docs.oneall.com/api/resources/). 
+More inforation on our [documentation](http://docs.oneall.com/api/resources/). 
+
+Here is a [step-by-step documetation](http://docs.oneall.com/services/implementation-guide/) for implementing our 
+Social Login, Social Link and Single Sign-On services on a website that already has users with accounts.
 
 
 License
