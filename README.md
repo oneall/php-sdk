@@ -9,7 +9,7 @@ repository.
 ### Prerequisites
 
 * A webserver with PHP >=5.4
-* A [OneAll account](app.oneall.com) account and site. You will need the site's **subdomain**, **public key** and **private key**.
+* A OneAll [account](app.oneall.com) account and site. You will need the site's **subdomain**, **public key** and **private key**.
 
 ### Installing
 
