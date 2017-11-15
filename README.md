@@ -3,15 +3,13 @@ OneAll PHP SDK
 
 ## Getting Started
 
-This project in a PHP SDK to use the OneAll API. It implements all API features through a curl or socket (FSockOpen) 
-client. Implementation examples are available on [oneall/api-php-example](https://github.com/oneall/api-php-example) 
+This SDK allows you to communicate with the OneAll API using PHP. The SDK implements all API features through a curl or socket (FSockOpen) client. Implementation examples are available in the [oneall/api-php-example](https://github.com/oneall/api-php-example) 
 repository.
 
 ### Prerequisites
 
-* webserver with PHP >=5.4
-* a [oneall account](app.oneall.com) with a application created. Y'oull need your application : **subdomain**, 
-**public key** and **private key**.
+* A webserver with PHP >=5.4
+* A [OneAll account](app.oneall.com) account and site. You will need the site's **subdomain**, **public key** and **private key**.
 
 ### Installing
 
@@ -25,10 +23,10 @@ repository.
 Documentation
 -------------
 
-You can find all documentation on [our website](http://docs.oneall.com/api/resources/). 
+You can find additional information in our [documentation](http://docs.oneall.com/api/resources/). 
 
 
 License
 -------
 
-The **GNU General Public License** (GPL) is available at http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+**GNU General Public License**, available at http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
