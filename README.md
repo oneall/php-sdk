@@ -40,7 +40,7 @@ In order to use the PHP-SDK, you'll need your application credentials you can fi
 
 First, you'll have to create a php client which contains the previous credentials. You can choose between *curl or 
 *fsockopen*, depending on your system.
-
+damie
     // create the client through our builder
     $builder = new Oneall\Client\Builder();
     $client = $builder->build('curl', $subDomain, $sitePublicKey, $sitePrivateKey);
@@ -60,6 +60,12 @@ You may use our ApiContainer to ease their instantiation.
 
     $api = new \Oneall\OneallApi($client);
     $connections = $api->getConnectionApi()->getAll();
+
+For example, if you want to publish a message on Twitter.
+
+    $api = new \Oneall\OneallApi($client);
+    $twitter_api = $api->getProviderApi()->getProviderApi('twitter');
+    $twitter_api->publish($identity_token, $message);
     
 
 Documentation

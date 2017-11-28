@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Fixed]
 
-*   Improve documentation 
+*   Improve documentation
+*	Twitter and Linkedin API included in Provider Registry
 
 1.1.1 (2017-10-31)
 ------------------
