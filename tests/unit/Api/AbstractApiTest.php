@@ -130,7 +130,7 @@ class TestingAbstractApi extends AbstractApi
         return 'testing-abstract-api';
     }
 
-    public function addInfo(array &$array, $path, $value)
+    public function addInfo(array $array, $path, $value)
     {
         return parent::addInfo($array, $path, $value);
     }

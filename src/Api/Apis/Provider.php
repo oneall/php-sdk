@@ -26,7 +26,8 @@ namespace Oneall\Api\Apis;
 
 use Oneall\Api\AbstractApi;
 use Oneall\Api\Apis\Provider\Facebook;
-use Oneall\Api\Apis\Provider\Linkedin;
+use Oneall\Api\Apis\Provider\LinkedIn;
+use Oneall\Api\Apis\Provider\Pinterest;
 use Oneall\Api\Apis\Provider\Steam;
 use Oneall\Api\Apis\Provider\Twitter;
 use Oneall\Api\Apis\Provider\Youtube;
@@ -58,8 +59,9 @@ class Provider extends AbstractApi
         $this->addProviderApi(new Facebook($client, $timeout));
         $this->addProviderApi(new Steam($client, $timeout));
         $this->addProviderApi(new Youtube($client, $timeout));
-        $this->addProviderApi(new Linkedin($client, $timeout));
+        $this->addProviderApi(new LinkedIn($client, $timeout));
         $this->addProviderApi(new Twitter($client, $timeout));
+        $this->addProviderApi(new Pinterest($client, $timeout));
     }
 
     /**

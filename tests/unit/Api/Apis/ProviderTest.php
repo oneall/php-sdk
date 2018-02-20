@@ -117,10 +117,14 @@ class ProviderTest extends TestingApi
     public function testConstructor()
     {
         $sut = new Provider($this->client, $this->timeout);
-        $this->assertEquals(['facebook', 'steam', 'youtube'], $sut->getProvidersApiNames());
-        $sut->hasProviderApi('facebook');
-        $sut->hasProviderApi('steam');
-        $sut->hasProviderApi('youtube');
+
+        $this->assertTrue($sut->hasProviderApi('facebook'));
+        $this->assertTrue($sut->hasProviderApi('steam'));
+        $this->assertTrue($sut->hasProviderApi('youtube'));
+        $this->assertTrue($sut->hasProviderApi('linkedin'));
+        $this->assertTrue($sut->hasProviderApi('twitter'));
+        $this->assertTrue($sut->hasProviderApi('pinterest'));
+
     }
 }
 
