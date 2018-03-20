@@ -48,12 +48,52 @@ class Youtube extends AbstractApi
      *
      * @param string $identityToken
      *
-     * @see http://docs.oneall.com/api/resources/identities/youtube/list-videos/
+     * @see http://docs.oneall.com/api/resources/pull/youtube/videos/
      *
      * @return \Oneall\Client\Response
      */
     public function getVideos($identityToken)
     {
-        return $this->getClient()->get('/identities/' . $identityToken . '/youtube/videos.json');
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/youtube/videos.json');
+    }
+
+    /**
+     * Youtube upload a video
+     *
+     * @param string $identityToken
+     * @param string $videoUrl
+     * @param string $title
+     * @param string|null $description
+     * @param string|null $thumbnailUrl
+     * @param string|null $callbackUrl
+     *
+     * @see http://docs.oneall.com/api/resources/push/youtube/video/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function publishVideos(
+        $identityToken,
+        $videoUrl,
+        $title,
+        $description = null,
+        $thumbnailUrl = null,
+        $callbackUrl = null
+    ) {
+        $data = [
+            'request' => [
+                'push' => [
+                    'video' => [
+                        'video_url' => $videoUrl,
+                        'title' => $title,
+                    ]
+                ]
+            ]
+        ];
+
+        $data = $this->addInfo($data, 'request/push/video/description', $description);
+        $data = $this->addInfo($data, 'request/push/video/thumbnail_url', $thumbnailUrl);
+        $data = $this->addInfo($data, 'request/push/video/callback_url', $callbackUrl);
+
+        return $this->getClient()->post('/push/identities/' . $identityToken . '/youtube/video.json', $data);
     }
 }
