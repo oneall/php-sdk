@@ -29,6 +29,7 @@ use Oneall\Api\Apis\Identity;
 use Oneall\Api\Apis\Provider;
 use Oneall\Api\Apis\Sharing;
 use Oneall\Api\Apis\ShortUrl;
+use Oneall\Api\Apis\Site;
 use Oneall\Api\Apis\Sso;
 use Oneall\Api\Apis\Storage;
 use Oneall\Api\Apis\User;
@@ -46,6 +47,7 @@ class OneallApi
     const API_SSO        = 'sso';
     const API_STORAGE    = 'storage';
     const API_USER       = 'user';
+    const API_SITE       = 'site';
 
     /**
      * @var ClientInterface
@@ -95,6 +97,7 @@ class OneallApi
                      ->add(new Sso($client))
                      ->add(new Storage($client))
                      ->add(new User($client))
+                     ->add(new Site($client))
             ;
         }
         $this->registry = $registry;
@@ -222,5 +225,13 @@ class OneallApi
     public function getUserApi()
     {
         return $this->getRegistry()->get(self::API_USER);
+    }
+
+    /**
+     * @return Site
+     */
+    public function getSiteApi()
+    {
+        return $this->getRegistry()->get(self::API_SITE);
     }
 }

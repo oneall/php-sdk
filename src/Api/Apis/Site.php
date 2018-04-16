@@ -33,6 +33,9 @@ use Oneall\Api\AbstractApi;
  */
 class Site extends AbstractApi
 {
+    const CONNECTION_LOG_TYPE_LOGIN = 'login';
+    const CONNECTION_LOG_TYPE_REGISTRATION = 'registration';
+
     /**
      * {@inheritdoc}
      */
@@ -71,5 +74,39 @@ class Site extends AbstractApi
         ];
 
         return $this->getClient()->put('/site/allowed-domains.json', $data);
+    }
+
+    /**
+     * Return connection log list
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function getConnectionLogs()
+    {
+        return $this->getClient()->get('/site/connections.json');
+    }
+
+    /**
+     * Store a new connection log for a classic "form" login.
+     *
+     * @param string $type          login or registration
+     * @param string $username
+     * @param string $email
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function createConnectionLog($type, $username, $email)
+    {
+        $data = [
+            'request' => [
+                'connection' => [
+                    "type" => $type,
+                    "username" => $username,
+                    "email" => $email
+                ],
+            ],
+        ];
+
+        return $this->getClient()->post('/site/connections.json', $data);
     }
 }
