@@ -13,7 +13,7 @@ The SDK allows you to communicate with the OneAll API using PHP. It implements a
 
 ### Installing
 
-> composer require "oneall/php-sdk:~1.0"
+> composer require "oneall/php-sdk:~2.0"
 
 ### Testing
 
