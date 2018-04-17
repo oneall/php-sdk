@@ -89,18 +89,18 @@ class Site extends AbstractApi
     /**
      * Store a new connection log for a classic "form" login.
      *
-     * @param string $type signin or signup
+     * @param string $action signin or signup
      * @param string $username
      * @param string $email
      *
      * @return \Oneall\Client\Response
      */
-    public function createConnectionLog($type, $username, $email)
+    public function createConnectionLog($action, $username, $email)
     {
         $data = [
             'request' => [
                 'connection' => [
-                    "type" => $type,
+                    "action" => $action,
                     "username" => $username,
                     "email" => $email
                 ],
