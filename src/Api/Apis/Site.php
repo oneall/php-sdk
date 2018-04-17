@@ -33,8 +33,8 @@ use Oneall\Api\AbstractApi;
  */
 class Site extends AbstractApi
 {
-    const CONNECTION_LOG_TYPE_LOGIN = 'login';
-    const CONNECTION_LOG_TYPE_REGISTRATION = 'registration';
+    const CONNECTION_LOG_SIGNIN = 'signin';
+    const CONNECTION_LOG_SIGNUP = 'signup';
 
     /**
      * {@inheritdoc}
@@ -89,7 +89,7 @@ class Site extends AbstractApi
     /**
      * Store a new connection log for a classic "form" login.
      *
-     * @param string $type          login or registration
+     * @param string $type signin or signup
      * @param string $username
      * @param string $email
      *
