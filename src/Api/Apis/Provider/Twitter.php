@@ -140,6 +140,6 @@ class Twitter extends AbstractApi
         // adding picture description if set
         $this->addInfo($data, 'request/push/picture/description', $description);
 
-        return $this->getClient()->post('/push/identities/' . $identityToken . '/twitter/post.json', $data);
+        return $this->getClient()->post('/push/identities/' . $identityToken . '/twitter/picture.json', $data);
     }
 }
