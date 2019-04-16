@@ -2,3 +2,4 @@
 /tests/results/
 .idea/
 composer.lock
+.DS_Store

@@ -52,11 +52,11 @@ class Twitter extends AbstractApi
         $parameters = [
             'count' => $count,
             'screen_name' => $screen_name,
-            'user_id' => $user_id,
+            'user_id' => $user_id
         ];
 
         $query_parameters = http_build_query(array_filter($parameters));
-        $uri              = '/site/providers/twitter/tweets/search-by-user.json';
+        $uri = '/site/providers/twitter/tweets/search-by-user.json';
         if ($query_parameters)
         {
             $uri .= '?' . $query_parameters;
@@ -78,7 +78,7 @@ class Twitter extends AbstractApi
     public function search($query, $count = 100)
     {
         $query_parameters = http_build_query(array_filter(['query' => $query, 'count' => $count]));
-        $uri              = '/site/providers/twitter/tweets/search.json';
+        $uri = '/site/providers/twitter/tweets/search.json';
         if ($query_parameters)
         {
             $uri .= '?' . $query_parameters;
@@ -106,12 +106,30 @@ class Twitter extends AbstractApi
                     'post' => [
                         'message' => $message,
                         'attachments' => $picturesIds
-                    ],
-                ],
+                    ]
+                ]
             ]
         ];
 
         return $this->getClient()->post('/push/identities/' . $identityToken . '/twitter/post.json', $data);
+    }
+
+    /**
+     * Publish Tweet On Twitter
+     *
+     * @param string $identityToken
+     * @param string $message
+     * @param array  $picturesIds array of picture id on tweeter. See self::upload() to upload picture and get their id.
+     *
+     * @see http://docs.oneall.com/api/resources/push/twitter/post/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function getTweets($identityToken, $num_tweets = 0)
+    {
+        $data = !empty($num_tweets) ? '?num_tweets=' . $num_tweets : '';
+
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/twitter/tweets.json' . $data);
     }
 
     /**
@@ -131,9 +149,9 @@ class Twitter extends AbstractApi
             "request" => [
                 "push" => [
                     'picture' => [
-                        'url' => $url,
-                    ],
-                ],
+                        'url' => $url
+                    ]
+                ]
             ]
         ];
 

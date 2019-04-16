@@ -72,18 +72,17 @@ class Facebook extends AbstractApi
      *
      * @see http://docs.oneall.com/api/resources/providers/facebook/list-all-pages/
      *
-     * @param \Oneall\Api\Pagination|null $pagination
+     * @param string                      $identityToken
+     * @param page                      $page
+     * @param num_pages                      $num_pages
      *
      * @return \Oneall\Client\Response
      */
-    public function getPages(Pagination $pagination = null)
+    public function getPages($identityToken, $page = 1, $num_pages = 2)
     {
-        if (!$pagination)
-        {
-            $pagination = new Pagination();
-        }
+        $data = '?page=' . $page . '&num_pages=' . $num_pages;
 
-        return $this->getClient()->get('/providers/facebook/pages.json?' . $pagination->build());
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/facebook/pages.json' . $data);
     }
 
     /**
@@ -115,7 +114,7 @@ class Facebook extends AbstractApi
                     'parts' => [
                         'text' => [],
                         'picture' => [],
-                        'link' => [],
+                        'link' => []
                     ]
                 ]
             ]
@@ -151,7 +150,7 @@ class Facebook extends AbstractApi
                     'post' => [
                         'message' => $message,
                         'link' => [],
-                        'attachments' => [],
+                        'attachments' => []
                     ]
                 ]
             ]
@@ -180,7 +179,7 @@ class Facebook extends AbstractApi
                 'push' => [
                     'picture' => [
                         'url' => $url,
-                        'create_post' => $createPost,
+                        'create_post' => $createPost
                     ]
                 ]
             ]
@@ -210,7 +209,7 @@ class Facebook extends AbstractApi
                 'push' => [
                     'video' => [
                         'url' => $videoUri,
-                        'create_post' => $createPost,
+                        'create_post' => $createPost
                     ]
                 ]
             ]
