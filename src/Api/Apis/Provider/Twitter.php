@@ -87,32 +87,9 @@ class Twitter extends AbstractApi
         return $this->getClient()->get($uri);
     }
 
-    /**
-     * Publish Tweet On Twitter
-     *
-     * @param string $identityToken
-     * @param string $message
-     * @param array  $picturesIds array of picture id on tweeter. See self::upload() to upload picture and get their id.
-     *
-     * @see http://docs.oneall.com/api/resources/push/twitter/post/
-     *
-     * @return \Oneall\Client\Response
-     */
-    public function publish($identityToken, $message, array $picturesIds = [])
-    {
-        $data = [
-            "request" => [
-                "push" => [
-                    'post' => [
-                        'message' => $message,
-                        'attachments' => $picturesIds
-                    ]
-                ]
-            ]
-        ];
-
-        return $this->getClient()->post('/push/identities/' . $identityToken . '/twitter/post.json', $data);
-    }
+    // ****************
+    // Pull API
+    // ****************
 
     /**
      * Publish Tweet On Twitter
@@ -132,18 +109,49 @@ class Twitter extends AbstractApi
         return $this->getClient()->get('/pull/identities/' . $identityToken . '/twitter/tweets.json' . $data);
     }
 
+    // ****************
+    // Push API
+    // ****************
+
+    /**
+     * Publish Tweet On Twitter
+     *
+     * @param string $identityToken
+     * @param string $message
+     * @param array  $picturesIds array of picture id on tweeter. See self::upload() to upload picture and get their id.
+     *
+     * @see http://docs.oneall.com/api/resources/push/twitter/post/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pushTweet($identityToken, $message, array $picturesIds = [])
+    {
+        $data = [
+            "request" => [
+                "push" => [
+                    'post' => [
+                        'message' => $message,
+                        'attachments' => $picturesIds
+                    ]
+                ]
+            ]
+        ];
+
+        return $this->getClient()->post('/push/identities/' . $identityToken . '/twitter/post.json', $data);
+    }
+
     /**
      * Upload Picture To Twitter
      *
-     * @param      $identityToken
-     * @param      $url
-     * @param null $description
+     * @param string $identityToken
+     * @param string $url
+     * @param string $description
      *
      * @see http://docs.oneall.com/api/resources/push/twitter/picture/
      *
      * @return \Oneall\Client\Response
      */
-    public function upload($identityToken, $url, $description = null)
+    public function pushPicture($identityToken, $url, $description = null)
     {
         $data = [
             "request" => [
@@ -159,5 +167,34 @@ class Twitter extends AbstractApi
         $this->addInfo($data, 'request/push/picture/description', $description);
 
         return $this->getClient()->post('/push/identities/' . $identityToken . '/twitter/picture.json', $data);
+    }
+
+    /**
+     * Upload Video To Twitter
+     *
+     * @param string $identityToken
+     * @param string $url
+     * @param string $callback_url
+     *
+     * @see http://docs.oneall.com/api/resources/push/twitter/video/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pushVideo($identityToken, $url, $callback_url = null)
+    {
+        $data = [
+            "request" => [
+                "push" => [
+                    'video' => [
+                        'video_url' => $url
+                    ]
+                ]
+            ]
+        ];
+
+        // If you specify a callback_url, the result will be posted to that URL once the request has been processed.
+        $this->addInfo($data, 'request/push/video/callback_url', $callback_url);
+
+        return $this->getClient()->post('/push/identities/' . $identityToken . '/twitter/video.json', $data);
     }
 }
