@@ -139,7 +139,7 @@ class Facebook extends AbstractApi
      */
     public function post($identityToken, $message, $link = null, $pictureId = null)
     {
-        if (empty($text) && empty($link['url']))
+        if (empty($message) && empty($link['url']))
         {
             throw new BadMethodCallException('Either a text or a link url must be supplied.');
         }
