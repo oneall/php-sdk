@@ -62,7 +62,7 @@ class Pinterest extends AbstractApi
      *
      * @param string $identityToken
      * @param string $board
-     * @param string $note
+     * @param string $description
      * @param string $image_url
      * @param null   $link
      *
@@ -70,15 +70,15 @@ class Pinterest extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function publishPin($identityToken, $board, $note, $image_url, $link = null)
+    public function publishPin($identityToken, $board, $description, $image_url, $link = null)
     {
         $data = [
             'request' => [
                 'push' => [
                     'pin' => [
                         "board" => $board,
-                        "note" => $note,
-                        "image_url" => $image_url,
+                        "description" => $description,
+                        "picture" => $image_url
                     ]
                 ]
             ]
