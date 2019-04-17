@@ -78,13 +78,14 @@ class Youtube extends AbstractApi
         $description = null,
         $thumbnailUrl = null,
         $callbackUrl = null
-    ) {
+    )
+    {
         $data = [
             'request' => [
                 'push' => [
                     'video' => [
                         'video_url' => $videoUrl,
-                        'title' => $title,
+                        'title' => $title
                     ]
                 ]
             ]

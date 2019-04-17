@@ -92,13 +92,14 @@ class Twitter extends AbstractApi
     // ****************
 
     /**
-     * Publish Tweet On Twitter
+     * Pull User Tweets On Twitter
      *
      * @param string $identityToken
-     * @param string $message
-     * @param array  $picturesIds array of picture id on tweeter. See self::upload() to upload picture and get their id.
+     * @param int $num_tweets
+     * @param string $after_tweet_id
+     * @param string $only_tweet_id
      *
-     * @see http://docs.oneall.com/api/resources/push/twitter/post/
+     * @see http://docs.oneall.com/api/resources/pull/twitter/tweets/
      *
      * @return \Oneall\Client\Response
      */
@@ -120,7 +121,7 @@ class Twitter extends AbstractApi
      *
      * @param string $identityToken
      * @param string $message
-     * @param array  $picturesIds array of picture id on tweeter. See self::upload() to upload picture and get their id.
+     * @param array  $picturesIds array of picture id on tweeter. See self::pushPicture() to upload picture and get their id.
      *
      * @see http://docs.oneall.com/api/resources/push/twitter/post/
      *

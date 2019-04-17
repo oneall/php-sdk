@@ -36,7 +36,7 @@ abstract class AbstractApi
     /**
      * Default timeout client
      */
-    CONST DEFAULT_TIMEOUT = 30;
+    const DEFAULT_TIMEOUT = 30;
 
     /**
      * @var \Oneall\Client\ClientInterface
@@ -56,7 +56,7 @@ abstract class AbstractApi
      */
     public function __construct(ClientInterface $client, $timeout = self::DEFAULT_TIMEOUT)
     {
-        $this->client  = $client;
+        $this->client = $client;
         $this->timeout = $timeout;
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractApi
      *
      * @return array the modified array
      */
-    protected function addInfo(array $array, $path, $value)
+    protected function addInfo(array &$array, $path, $value)
     {
         if ($value === null || (is_array($value) && empty($value)))
         {

@@ -25,8 +25,6 @@
 namespace Oneall\Api\Apis\Provider;
 
 use Oneall\Api\AbstractApi;
-use Oneall\Api\Pagination;
-use Oneall\Exception\BadMethodCallException;
 
 /**
  * Class Facebook
@@ -46,50 +44,26 @@ class Facebook extends AbstractApi
     }
 
     /**
-     * Facebook \ List Posts
-     *
-     * @see http://docs.oneall.com/api/resources/identities/facebook/list-posts/
-     *
-     * @param string                      $identityToken
-     * @param \Oneall\Api\Pagination|null $pagination
-     *
-     * @return \Oneall\Client\Response
-     */
-    public function getPosts($identityToken, Pagination $pagination = null)
-    {
-        if (!$pagination)
-        {
-            $pagination = new Pagination();
-        }
-
-        $uri = '/identities/' . $identityToken . '/facebook/posts.json?' . $pagination->build();
-
-        return $this->getClient()->get($uri);
-    }
-
-    /**
      * Facebook \ List Pages
      *
-     * @see http://docs.oneall.com/api/resources/providers/facebook/list-all-pages/
+     * @see http://docs.oneall.com/api/resources/pull/facebook/pages/
      *
-     * @param string                      $identityToken
-     * @param page                      $page
-     * @param num_pages                      $num_pages
+     * @param string $identityToken
+     * @param int $num_pages
+     * @param int $page
      *
      * @return \Oneall\Client\Response
      */
-    public function getPages($identityToken, $page = 1, $num_pages = 2)
+    public function listPages()
     {
-        $data = '?page=' . $page . '&num_pages=' . $num_pages;
-
-        return $this->getClient()->get('/pull/identities/' . $identityToken . '/facebook/pages.json' . $data);
+        return $this->getClient()->get('/providers/facebook/pages.json');
     }
 
     /**
      * Publish on a page
      *
      *
-     * @see http://docs.oneall.com/api/resources/providers/facebook/list-all-pages/
+     * @see http://docs.oneall.com/api/resources/providers/facebook/write-to-page/
      *
      * @return \Oneall\Client\Response
      */
@@ -127,96 +101,159 @@ class Facebook extends AbstractApi
         return $this->getClient()->post('/providers/facebook/pages/' . $pageToken . '/publish.json', $data);
     }
 
-    /**
-     * @param      $identityToken
-     * @param      $message
-     * @param null $link
-     * @param null $pictureId
-     *
-     * @see http://docs.oneall.com/api/resources/push/facebook/post/
-     *
-     * @return \Oneall\Client\Response
-     */
-    public function post($identityToken, $message, $link = null, $pictureId = null)
-    {
-        if (empty($message) && empty($link['url']))
-        {
-            throw new BadMethodCallException('Either a text or a link url must be supplied.');
-        }
-
-        $data = [
-            'request' => [
-                'push' => [
-                    'post' => [
-                        'message' => $message,
-                        'link' => [],
-                        'attachments' => []
-                    ]
-                ]
-            ]
-        ];
-
-        $data = $this->addInfo($data, 'request/push/post/link', $link);
-        $data = $this->addInfo($data, 'request/push/post/attachments', [$pictureId]);
-
-        return $this->getClient()->post('/push/identities/' . $identityToken . '/facebook/post.json', $data);
-    }
+    // ****************
+    // Pull API
+    // ****************
 
     /**
-     * Upload a picture.
-     *
-     * @param string       $identityToken
-     * @param string       $url
-     * @param null |string $description
-     * @param bool         $createPost
-     *
-     * @return \Oneall\Client\Response
-     */
-    public function uploadPicture($identityToken, $url, $description = null, $createPost = false)
-    {
-        $data = [
-            'request' => [
-                'push' => [
-                    'picture' => [
-                        'url' => $url,
-                        'create_post' => $createPost
-                    ]
-                ]
-            ]
-        ];
-
-        $this->addInfo($data, 'request/push/picture/description', $description);
-
-        return $this->getClient()->post('/push/identities/' . $identityToken . '/facebook/picture.json', $data);
-    }
-
-    /**
-     * Upload a picture.
+     * Facebook \ List Posts
      *
      * @param string $identityToken
-     * @param string $videoUri
-     * @param null   $description
-     * @param bool   $createPost
+     * @param int $num_posts
+     * @param int $page
+     * @param boolean $limit_own_posts
      *
-     * @see https://docs.oneall.com/api/resources/push/facebook/video/
+     * @see http://docs.oneall.com/api/resources/pull/facebook/posts/
      *
      * @return \Oneall\Client\Response
      */
-    public function uploadVideo($identityToken, $videoUri, $description = null, $createPost = false)
+    public function pullPosts($identityToken, $num_posts = 50, $page = 1, $limit_own_posts = false)
+    {
+        $data = '?num_posts=' . $num_posts;
+        $data .= !empty($page) && is_int($page) ? '&page=' . $page : '';
+        $data .= is_bool($limit_own_posts) ? '&limit_own_posts=' . (int) $limit_own_posts : '';
+
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/facebook/posts.json' . $data);
+    }
+
+    /**
+     * Facebook \ List Pages
+     *
+     * @see http://docs.oneall.com/api/resources/pull/facebook/pages/
+     *
+     * @param string $identityToken
+     * @param int $num_pages
+     * @param int $page
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pullPages($identityToken, $num_pages = 25, $page = 1)
+    {
+        $data = '?num_pages=' . $num_pages;
+        $data .= !empty($page) && is_int($page) ? '&page=' . $page : '';
+
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/facebook/pages.json' . $data);
+    }
+
+    /**
+     * Facebook \ List Likes
+     *
+     * @see http://docs.oneall.com/api/resources/pull/facebook/likes/
+     *
+     * @param string $identityToken
+     * @param int $num_likes
+     * @param int $page
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pullLikes($identityToken, $num_likes = 25, $page = 1)
+    {
+        $data = '?num_likes=' . $num_likes;
+        $data .= !empty($page) && is_int($page) ? '&page=' . $page : '';
+
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/facebook/likes.json' . $data);
+    }
+
+    // ****************
+    // Push API
+    // ****************
+
+    /**
+     * Publish page post
+     *
+     * @param string $identityToken
+     * @param string $message
+     * @param array  $picturesIds array of picture id. See self::pushPicture() to upload picture and get their id.
+     *
+     * @see http://docs.oneall.com/api/resources/push/facebook/page/post/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pushPagePosts($identityToken, $pageId, $message, $link = '', array $picturesIds = [])
     {
         $data = [
-            'request' => [
-                'push' => [
-                    'video' => [
-                        'url' => $videoUri,
-                        'create_post' => $createPost
+            "request" => [
+                "push" => [
+                    'page' => [
+                        'id' => $pageId,
+                        'message' => $message,
+                        'attachments' => $picturesIds
                     ]
                 ]
             ]
         ];
 
-        $this->addInfo($data, 'request/push/video/description', $description);
+        // adding link if set
+        $data = $this->addInfo($data, 'request/push/page/link', $link);
 
-        return $this->getClient()->post('/push/identities/' . $identityToken . '/facebook/video.json', $data);
+        return $this->getClient()->post('/push/identities/' . $identityToken . '/facebook/page/post.json', $data);
     }
+
+    // /**
+    //  * Upload a picture.
+    //  *
+    //  * @param string       $identityToken
+    //  * @param string       $url
+    //  * @param null |string $description
+    //  * @param bool         $createPost
+    //  *
+    //  * @return \Oneall\Client\Response
+    //  */
+    // public function pushPicture($identityToken, $url, $description = null, $createPost = false)
+    // {
+    //     $data = [
+    //         'request' => [
+    //             'push' => [
+    //                 'picture' => [
+    //                     'url' => $url,
+    //                     'create_post' => $createPost
+    //                 ]
+    //             ]
+    //         ]
+    //     ];
+
+    //     $this->addInfo($data, 'request/push/picture/description', $description);
+
+    //     return $this->getClient()->post('/push/identities/' . $identityToken . '/facebook/picture.json', $data);
+    // }
+
+    // *
+    //  * Upload a picture.
+    //  *
+    //  * @param string $identityToken
+    //  * @param string $videoUri
+    //  * @param null   $description
+    //  * @param bool   $createPost
+    //  *
+    //  * @see https://docs.oneall.com/api/resources/push/facebook/video/
+    //  *
+    //  * @return \Oneall\Client\Response
+
+    // public function pushVideo($identityToken, $videoUri, $description = null, $createPost = false)
+    // {
+    //     $data = [
+    //         'request' => [
+    //             'push' => [
+    //                 'video' => [
+    //                     'url' => $videoUri,
+    //                     'create_post' => $createPost
+    //                 ]
+    //             ]
+    //         ]
+    //     ];
+
+    //     $this->addInfo($data, 'request/push/video/callback_url', $description);
+
+    //     return $this->getClient()->post('/push/identities/' . $identityToken . '/facebook/video.json', $data);
+    // }
 }
