@@ -47,13 +47,21 @@ class Steam extends AbstractApi
      * Steam \ List Games
      *
      * @param string $identityToken
+     * @param int $num_games
+     * @param int $page
+     * @param string $only_game_id
+     *
      *
      * @see http://docs.oneall.com/api/resources/identities/steam/list-games/
      *
      * @return \Oneall\Client\Response
      */
-    public function getGames($identityToken)
+    public function pullGames($identityToken, $num_games = 50, $page = '', $only_game_id = '')
     {
-        return $this->getClient()->get('/identities/' . $identityToken . '/steam/games.json');
+        $data = '?num_games=' . $num_games;
+        $data .= !empty($page) && is_int($page) ? '&page=' . $page : '';
+        $data .= !empty($only_game_id) ? '&only_game_id=' . $only_game_id : '';
+
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/steam/games.json' . $data);
     }
 }
