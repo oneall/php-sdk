@@ -102,9 +102,11 @@ class Twitter extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function getTweets($identityToken, $num_tweets = 0)
+    public function pullTweets($identityToken, $num_tweets = 50, $after_tweet_id = '', $only_tweet_id = '')
     {
-        $data = !empty($num_tweets) ? '?num_tweets=' . $num_tweets : '';
+        $data = '?num_tweets=' . $num_tweets;
+        $data .= !empty($after_tweet_id) ? '&after_tweet_id=' . $after_tweet_id : '';
+        $data .= !empty($only_tweet_id) ? '&only_tweet_id=' . $only_tweet_id : '';
 
         return $this->getClient()->get('/pull/identities/' . $identityToken . '/twitter/tweets.json' . $data);
     }
