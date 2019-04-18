@@ -41,7 +41,48 @@ class LinkedIn extends AbstractApi
         return 'linkedin';
     }
 
+    // ****************
+    // Pull API
+    // ****************
+
     /**
+     * Pull Companies
+     *
+     * @param string $identityToken
+     *
+     * @see http://docs.oneall.com/api/resources/pull/linkedin/companies/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pullCompanies($identityToken)
+    {
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/linkedin/companies.json' . $data);
+    }
+
+    /**
+     * Company Posts
+     *
+     * @param string $identityToken
+     *
+     * @see http://docs.oneall.com/api/resources/pull/linkedin/company/posts/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pullCompanyPost($identityToken, $companyId, $num_posts = 50, $page = 1)
+    {
+        $data = '?num_posts=' . $num_posts;
+        $data .= !empty($page) && is_int($page) ? '&page=' . $page : '';
+
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/linkedin/company/' . $companyId . '/posts.json' . $data);
+    }
+
+    // ****************
+    // Push API
+    // ****************
+
+    /**
+     * Push User Post
+     *
      * @param string      $identityToken
      * @param string      $link
      * @param string|null $title
@@ -53,19 +94,20 @@ class LinkedIn extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function publish(
+    public function pushPost(
         $identityToken,
         $link,
         $title = null,
         $description = null,
         $message = null,
         $pictureUrl = null
-    ) {
+    )
+    {
         $data = [
             "request" => [
                 "push" => [
                     "post" => [
-                        "link" => $link,
+                        "link" => $link
                     ]
                 ]
             ]
@@ -77,5 +119,49 @@ class LinkedIn extends AbstractApi
         $this->addInfo($data, "request/push/post/picture", $pictureUrl);
 
         return $this->getClient()->post('/push/identities/' . $identityToken . '/linkedin/post.json', $data);
+    }
+
+    /**
+     * Push Post company page
+     *
+     * @param string      $identityToken
+     * @param string      $link
+     * @param string      $companyId
+     * @param string|null $title
+     * @param string|null $description
+     * @param string|null $message
+     * @param string|null $pictureUrl
+     *
+     * @see http://docs.oneall.com/api/resources/push/linkedin/post/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pushCompanyPost(
+        $identityToken,
+        $link,
+        $companyId,
+        $title = null,
+        $description = null,
+        $message = null,
+        $pictureUrl = null
+    )
+    {
+        $data = [
+            "request" => [
+                "push" => [
+                    "post" => [
+                        "company" => $companyId,
+                        "link" => $link
+                    ]
+                ]
+            ]
+        ];
+
+        $this->addInfo($data, "request/push/post/description", $description);
+        $this->addInfo($data, "request/push/post/message", $message);
+        $this->addInfo($data, "request/push/post/title", $title);
+        $this->addInfo($data, "request/push/post/picture", $pictureUrl);
+
+        return $this->getClient()->post('/push/identities/' . $identityToken . '/linkedin/company/post.json', $data);
     }
 }
