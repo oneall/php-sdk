@@ -28,18 +28,18 @@ use Oneall\Api\AbstractApi;
 use Oneall\Api\Pagination;
 
 /**
- * Class Analytics
+ * Class SharingAnalytics
  *
  * @package Oneall\Api\Apis
  */
-class Analytics extends AbstractApi
+class SharingAnalytics extends AbstractApi
 {
     /**
      * @return string
      */
     public function getName()
     {
-        return 'analytics';
+        return 'sharing_analytics';
     }
 
     /**
@@ -137,7 +137,7 @@ class Analytics extends AbstractApi
      */
     public function delete($snapshotToken)
     {
-        $uri      = '/sharing/analytics/snapshots/' . $snapshotToken . '.json?confirm_deletion=true';
+        $uri = '/sharing/analytics/snapshots/' . $snapshotToken . '.json?confirm_deletion=true';
         $response = $this->getClient()->delete($uri);
 
         return $response;

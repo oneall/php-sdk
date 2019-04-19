@@ -86,28 +86,28 @@ class ShortUrl extends AbstractApi
     /**
      * Read Details Of A Shortened URL
      *
-     * @param string $token
+     * @param string $shorturl_token
      *
      * @see http://docs.oneall.com/api/resources/shorturls/read-shorturl-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function get($token)
+    public function get($shorturl_token)
     {
-        return $this->getClient()->get('/shorturls/' . $token . '.json');
+        return $this->getClient()->get('/shorturls/' . $shorturl_token . '.json');
     }
 
     /**
      * Delete A Shortened URL
      *
-     * @param string $token
+     * @param string $shorturl_token
      *
      * @see http://docs.oneall.com/api/resources/shorturls/delete-shorturl/
      *
      * @return \Oneall\Client\Response
      */
-    public function delete($token)
+    public function delete($shorturl_token)
     {
-        return $this->getClient()->delete('/shorturls/' . $token . '.json?confirm_deletion=true');
+        return $this->getClient()->delete('/shorturls/' . $shorturl_token . '.json?confirm_deletion=true');
     }
 }

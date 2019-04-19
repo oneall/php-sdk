@@ -31,7 +31,6 @@ use Oneall\Api\Apis\Provider\Pinterest;
 use Oneall\Api\Apis\Provider\Steam;
 use Oneall\Api\Apis\Provider\Twitter;
 use Oneall\Api\Apis\Provider\Youtube;
-use Oneall\Api\Pagination;
 use Oneall\Client\ClientInterface;
 use Oneall\Exception\ProviderApiNotFound;
 
@@ -80,14 +79,9 @@ class Provider extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function getAll(Pagination $pagination = null)
+    public function getAll()
     {
-        if (!$pagination)
-        {
-            $pagination = new Pagination();
-        }
-
-        return $this->getClient()->get('/providers.json?' . $pagination->build());
+        return $this->getClient()->get('/providers.json');
     }
 
     /**

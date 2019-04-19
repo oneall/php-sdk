@@ -28,6 +28,7 @@ use Oneall\Api\Apis\Connection;
 use Oneall\Api\Apis\Identity;
 use Oneall\Api\Apis\Provider;
 use Oneall\Api\Apis\Sharing;
+use Oneall\Api\Apis\SharingAnalytics;
 use Oneall\Api\Apis\ShortUrl;
 use Oneall\Api\Apis\Site;
 use Oneall\Api\Apis\Sso;
@@ -40,14 +41,15 @@ use Oneall\Client\ProxyConfiguration;
 class OneallApi
 {
     const API_CONNECTION = 'connection';
-    const API_IDENTITY   = 'identity';
-    const API_PROVIDER   = 'provider';
-    const API_SHARING    = 'sharing';
-    const API_SHORTURL   = 'shorturl';
-    const API_SSO        = 'sso';
-    const API_STORAGE    = 'storage';
-    const API_USER       = 'user';
-    const API_SITE       = 'site';
+    const API_IDENTITY = 'identity';
+    const API_PROVIDER = 'provider';
+    const API_SHARING = 'sharing';
+    const API_SHORTURL = 'shorturl';
+    const API_SSO = 'sso';
+    const API_STORAGE = 'storage';
+    const API_USER = 'user';
+    const API_SITE = 'site';
+    const API_SHARING_ANALYTICS = 'sharing_analytics';
 
     /**
      * @var ClientInterface
@@ -83,21 +85,22 @@ class OneallApi
     public function __construct(ClientInterface $client, ProxyConfiguration $proxy = null, Registry $registry = null)
     {
         $this->client = $client;
-        $this->proxy  = $proxy;
+        $this->proxy = $proxy;
 
         // configure a full a default complete registry
         if (!$registry)
         {
             $registry = new Registry();
             $registry->add(new Connection($client))
-                     ->add(new Identity($client))
-                     ->add(new Provider($client))
-                     ->add(new Sharing($client))
-                     ->add(new ShortUrl($client))
-                     ->add(new Sso($client))
-                     ->add(new Storage($client))
-                     ->add(new User($client))
-                     ->add(new Site($client))
+                ->add(new Identity($client))
+                ->add(new Provider($client))
+                ->add(new Sharing($client))
+                ->add(new SharingAnalytics($client))
+                ->add(new ShortUrl($client))
+                ->add(new Sso($client))
+                ->add(new Storage($client))
+                ->add(new User($client))
+                ->add(new Site($client))
             ;
         }
         $this->registry = $registry;
@@ -233,5 +236,13 @@ class OneallApi
     public function getSiteApi()
     {
         return $this->getRegistry()->get(self::API_SITE);
+    }
+
+    /**
+     * @return Site
+     */
+    public function getSharingAnalyticsApi()
+    {
+        return $this->getRegistry()->get(self::API_SHARING_ANALYTICS);
     }
 }

@@ -45,15 +45,15 @@ class AnalyticsTest extends TestingApi
 
     public function testGetName()
     {
-        $this->assertEquals('analytics', $this->sut->getName());
+        $this->assertEquals('sharing_analytics', $this->sut->getName());
     }
 
     public function testGetAllWithoutToken()
     {
         $this->client->expects($this->once())
-                     ->method('get')
-                     ->with('/sharing/analytics/snapshots.json?' . $this->getDefaultPaginationQuery())
-                     ->willReturn($this->response)
+            ->method('get')
+            ->with('/sharing/analytics/snapshots.json?' . $this->getDefaultPaginationQuery())
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->getAll());
@@ -62,9 +62,9 @@ class AnalyticsTest extends TestingApi
     public function testGetAllWithOptions()
     {
         $this->client->expects($this->once())
-                     ->method('get')
-                     ->with('/sharing/analytics/snapshots.json?' . $this->pagination->build() . '&identity_token=a&user_token=b')
-                     ->willReturn($this->response)
+            ->method('get')
+            ->with('/sharing/analytics/snapshots.json?' . $this->pagination->build() . '&identity_token=a&user_token=b')
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->getAll($this->pagination, 'a', 'b'));
@@ -83,9 +83,9 @@ class AnalyticsTest extends TestingApi
             ]
         ];
         $this->client->expects($this->once())
-                     ->method('put')
-                     ->with('/sharing/analytics/snapshots.json', $data)
-                     ->willReturn($this->response)
+            ->method('put')
+            ->with('/sharing/analytics/snapshots.json', $data)
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->initiate('my-token', 'my-uri'));
@@ -94,9 +94,9 @@ class AnalyticsTest extends TestingApi
     public function testGet()
     {
         $this->client->expects($this->once())
-                     ->method('get')
-                     ->with('/sharing/analytics/snapshots/my-token.json')
-                     ->willReturn($this->response)
+            ->method('get')
+            ->with('/sharing/analytics/snapshots/my-token.json')
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->get('my-token'));
@@ -105,9 +105,9 @@ class AnalyticsTest extends TestingApi
     public function testDelete()
     {
         $this->client->expects($this->once())
-                     ->method('delete')
-                     ->with('/sharing/analytics/snapshots/my-token.json?confirm_deletion=true')
-                     ->willReturn($this->response)
+            ->method('delete')
+            ->with('/sharing/analytics/snapshots/my-token.json?confirm_deletion=true')
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->delete('my-token'));

@@ -42,6 +42,10 @@ class Sharing extends AbstractApi
         return 'sharing';
     }
 
+    // ****************
+    // Share Icons
+    // ****************
+
     /**
      * List All Shared Pages
      *
@@ -64,21 +68,21 @@ class Sharing extends AbstractApi
     /**
      * Get page details by its token
      *
-     * @param string                      $token
+     * @param string                      $sharing_page_token
      * @param \Oneall\Api\Pagination|null $pagination
      *
      * @see http://docs.oneall.com/api/resources/sharing/pages/read-page-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function getPageByToken($token, Pagination $pagination = null)
+    public function getPageByToken($sharing_page_token, Pagination $pagination = null)
     {
         if (!$pagination)
         {
             $pagination = new Pagination();
         }
 
-        return $this->getClient()->get('/sharing/pages/' . $token . '.json?' . $pagination->build());
+        return $this->getClient()->get('/sharing/pages/' . $sharing_page_token . '.json?' . $pagination->build());
     }
 
     /**
@@ -94,6 +98,10 @@ class Sharing extends AbstractApi
     {
         return $this->getClient()->get('/sharing/pages/page.json?page_url=' . $url);
     }
+
+    // ****************
+    // Advanced Sharing API
+    // ****************
 
     /**
      * List All Published Messages
@@ -138,8 +146,8 @@ class Sharing extends AbstractApi
         array $link = [],
         array $uploads = [],
         $enableTracking = true
-    ) {
-
+    )
+    {
         $data = [
             "request" => [
                 "sharing_message" => [
@@ -186,8 +194,8 @@ class Sharing extends AbstractApi
         array $link = [],
         array $uploads = [],
         $enableTracking = true
-    ) {
-
+    )
+    {
         $data = [
             "request" => [
                 "sharing_message" => [
@@ -243,7 +251,7 @@ class Sharing extends AbstractApi
                     'publish_for_user' => [
                         'user_token' => $userToken,
                         'providers' => $providers
-                    ],
+                    ]
                 ]
             ]
         ];
@@ -268,7 +276,7 @@ class Sharing extends AbstractApi
                 "sharing_message" => [
                     'publish_for_identity' => [
                         'identity_token' => $identityToken
-                    ],
+                    ]
                 ]
             ]
         ];
@@ -287,7 +295,7 @@ class Sharing extends AbstractApi
      */
     public function delete($messageToken)
     {
-        $uri      = '/sharing/messages/' . $messageToken . '.json?confirm_deletion=true';
+        $uri = '/sharing/messages/' . $messageToken . '.json?confirm_deletion=true';
         $response = $this->getClient()->delete($uri);
 
         return $response;

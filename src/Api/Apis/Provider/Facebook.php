@@ -43,64 +43,6 @@ class Facebook extends AbstractApi
         return 'facebook';
     }
 
-    /**
-     * Facebook \ List Pages
-     *
-     * @see http://docs.oneall.com/api/resources/pull/facebook/pages/
-     *
-     * @param string $identityToken
-     * @param int $num_pages
-     * @param int $page
-     *
-     * @return \Oneall\Client\Response
-     */
-    public function listPages()
-    {
-        return $this->getClient()->get('/providers/facebook/pages.json');
-    }
-
-    /**
-     * Publish on a page
-     *
-     *
-     * @see http://docs.oneall.com/api/resources/providers/facebook/write-to-page/
-     *
-     * @return \Oneall\Client\Response
-     */
-    /**
-     * @param string $pageToken
-     * @param string $text
-     * @param array  $link an array with the following elements :url, name, caption, description
-     * @param string $pictureUrl
-     *
-     * @return \Oneall\Client\Response
-     */
-    public function publish($pageToken, $text, array $link = [], $pictureUrl = null)
-    {
-        if (empty($text) && empty($link['url']))
-        {
-            throw new BadMethodCallException('Either a text or a link url must be supplied.');
-        }
-
-        $data = [
-            'request' => [
-                'page_message' => [
-                    'parts' => [
-                        'text' => [],
-                        'picture' => [],
-                        'link' => []
-                    ]
-                ]
-            ]
-        ];
-
-        $data = $this->addInfo($data, 'request/page_message/parts/text/body', $text);
-        $data = $this->addInfo($data, 'request/page_message/parts/picture/url', $pictureUrl);
-        $data = $this->addInfo($data, 'request/page_message/parts/link', $link);
-
-        return $this->getClient()->post('/providers/facebook/pages/' . $pageToken . '/publish.json', $data);
-    }
-
     // ****************
     // Pull API
     // ****************
