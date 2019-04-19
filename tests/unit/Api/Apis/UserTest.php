@@ -57,9 +57,9 @@ class UserTest extends TestingApi
     {
         $query = $this->getDefaultPaginationQuery();
         $this->client->expects($this->once())
-                     ->method('get')
-                     ->with('/users.json?' . $query)
-                     ->willReturn($this->response)
+            ->method('get')
+            ->with('/users.json?' . $query)
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->getAll());
@@ -68,9 +68,9 @@ class UserTest extends TestingApi
     public function testGetAllWithPagination()
     {
         $this->client->expects($this->once())
-                     ->method('get')
-                     ->with('/users.json?' . $this->pagination->build())
-                     ->willReturn($this->response)
+            ->method('get')
+            ->with('/users.json?' . $this->pagination->build())
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->getAll($this->pagination));
@@ -79,9 +79,9 @@ class UserTest extends TestingApi
     public function testGet()
     {
         $this->client->expects($this->once())
-                     ->method('get')
-                     ->with('/users/my-token.json')
-                     ->willReturn($this->response)
+            ->method('get')
+            ->with('/users/my-token.json')
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->get('my-token'));
@@ -92,12 +92,11 @@ class UserTest extends TestingApi
         $data = [
             "request" => [
                 "user" => [
-                    "action" => "import_from_access_token",
                     "identity" => [
                         "source" => [
                             "key" => 'provider-key',
                             "access_token" => [
-                                "key" => 'access-token',
+                                "key" => 'access-token'
                             ]
                         ]
                     ]
@@ -105,9 +104,9 @@ class UserTest extends TestingApi
             ]
         ];
         $this->client->expects($this->once())
-                     ->method('put')
-                     ->with('/users.json', $data)
-                     ->willReturn($this->response)
+            ->method('put')
+            ->with('/users.json', $data)
+            ->willReturn($this->response)
         ;
         $this->assertSame($this->response, $this->sut->createUser('provider-key', 'access-token'));
     }
@@ -117,14 +116,13 @@ class UserTest extends TestingApi
         $data = [
             "request" => [
                 "user" => [
-                    "action" => "import_from_access_token",
                     'user_token' => 'user_token',
                     "identity" => [
                         "source" => [
                             "key" => 'provider-key',
                             "access_token" => [
                                 "key" => 'access-token',
-                                "secret" => 'access-token-secret',
+                                "secret" => 'access-token-secret'
                             ]
                         ]
                     ]
@@ -132,9 +130,9 @@ class UserTest extends TestingApi
             ]
         ];
         $this->client->expects($this->once())
-                     ->method('put')
-                     ->with('/users.json', $data)
-                     ->willReturn($this->response)
+            ->method('put')
+            ->with('/users.json', $data)
+            ->willReturn($this->response)
         ;
 
         $this->assertSame(
@@ -145,11 +143,10 @@ class UserTest extends TestingApi
 
     public function testDelete()
     {
-
         $this->client->expects($this->once())
-                     ->method('delete')
-                     ->with('/users/my-token.json?confirm_deletion=true')
-                     ->willReturn($this->response)
+            ->method('delete')
+            ->with('/users/my-token.json?confirm_deletion=true')
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->delete('my-token'));
@@ -157,11 +154,10 @@ class UserTest extends TestingApi
 
     public function testGetContacts()
     {
-
         $this->client->expects($this->once())
-                     ->method('get')
-                     ->with('/users/my-token/contacts.json')
-                     ->willReturn($this->response)
+            ->method('get')
+            ->with('/users/my-token/contacts.json')
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->getContacts('my-token'));
@@ -169,11 +165,10 @@ class UserTest extends TestingApi
 
     public function testGetContactsWithCache()
     {
-
         $this->client->expects($this->once())
-                     ->method('get')
-                     ->with('/users/my-token/contacts.json?disable_cache=true')
-                     ->willReturn($this->response)
+            ->method('get')
+            ->with('/users/my-token/contacts.json?disable_cache=true')
+            ->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->getContacts('my-token', true));
@@ -186,14 +181,14 @@ class UserTest extends TestingApi
                 "message" => [
                     "providers" => ['facebook'],
                     "parts" => [
-                        "text" => ["body" => 'my-text'],
+                        "text" => ["body" => 'my-text']
                     ]
                 ]
             ]
         ];
 
         $this->client->expects($this->once())->method('post')->with('/users/my-token/publish.json',
-                                                                    $data)->willReturn($this->response)
+            $data)->willReturn($this->response)
         ;
 
         $this->assertSame($this->response, $this->sut->publish('my-token', ['facebook'], 'my-text'));
@@ -207,11 +202,11 @@ class UserTest extends TestingApi
                 "data" => "upload-data"
             ]
         ];
-        $link    = [
+        $link = [
             'url' => 'link-url',
             'name' => 'link-name',
             'caption' => 'link-caption',
-            'description' => 'link-description',
+            'description' => 'link-description'
         ];
 
         $data = [
@@ -223,16 +218,16 @@ class UserTest extends TestingApi
                         'video' => ['url' => 'video-url'],
                         'picture' => ['url' => 'picture-url'],
                         'link' => $link,
-                        'uploads' => $uploads,
+                        'uploads' => $uploads
                     ]
                 ]
             ]
         ];
 
         $this->client->expects($this->once())
-                     ->method('post')
-                     ->with('/users/my-token/publish.json', $data)
-                     ->willReturn($this->response)
+            ->method('post')
+            ->with('/users/my-token/publish.json', $data)
+            ->willReturn($this->response)
         ;
 
         $this->assertSame(

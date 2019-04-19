@@ -62,15 +62,15 @@ class User extends AbstractApi
     /**
      * Retrieve user details
      *
-     * @param string $token
+     * @param string $user_token
      *
      * @see http://docs.oneall.com/api/resources/users/read-user-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function get($token)
+    public function get($user_token)
     {
-        return $this->getClient()->get('/users/' . $token . '.json');
+        return $this->getClient()->get('/users/' . $user_token . '.json');
     }
 
     /**
@@ -90,16 +90,16 @@ class User extends AbstractApi
         $accessTokenKey,
         $userToken = null,
         $accessTokenSecret = null
-    ) {
+    )
+    {
         $data = [
             "request" => [
                 "user" => [
-                    "action" => "import_from_access_token",
                     "identity" => [
                         "source" => [
                             "key" => $providerKey,
                             "access_token" => [
-                                "key" => $accessTokenKey,
+                                "key" => $accessTokenKey
                             ]
                         ]
                     ]
@@ -116,135 +116,35 @@ class User extends AbstractApi
     /**
      * Delete a user
      *
-     * @param string $token
+     * @param string $user_token
+     *
+     * @see http://docs.oneall.com/api/resources/users/delete-user/
      *
      * @return \Oneall\Client\Response
      */
-    public function delete($token)
+    public function delete($user_token)
     {
-        return $this->getClient()->delete('/users/' . $token . '.json?confirm_deletion=true');
+        return $this->getClient()->delete('/users/' . $user_token . '.json?confirm_deletion=true');
     }
 
     /**
      * Read User's Contacts
      *
-     * @param string $token
+     * @param string $user_token
      * @param bool   $disableCache
      *
      * @see http://docs.oneall.com/api/resources/users/read-contacts/
      *
      * @return \Oneall\Client\Response
      */
-    public function getContacts($token, $disableCache = false)
+    public function getContacts($user_token, $disableCache = false)
     {
-        $uri = '/users/' . $token . '/contacts.json';
+        $uri = '/users/' . $user_token . '/contacts.json';
         if ($disableCache)
         {
             $uri .= '?disable_cache=true';
         }
 
         return $this->getClient()->get($uri);
-    }
-
-    /**
-     * Publish Content For User
-     *
-     * @param string $userToken
-     * @param array  $providers
-     * @param string $text
-     * @param string $videoUrl
-     * @param string $pictureUrl
-     * @param array  $link
-     * @param array  $upload
-     *
-     * @see http://docs.oneall.com/api/resources/users/write-to-users-wall/
-     *
-     * @return \Oneall\Client\Response
-     */
-    public function publish(
-        $userToken,
-        array $providers,
-        $text,
-        $videoUrl = null,
-        $pictureUrl = null,
-        array $link = [],
-        array $upload = []
-    ) {
-
-        $data = [
-            "request" => [
-                "message" => [
-                    "providers" => $providers,
-                    "parts" => [
-                        "text" => ["body" => $text],
-                    ]
-                ]
-            ]
-        ];
-
-        $data = $this->addInfo($data, 'request/message/parts/video/url', $videoUrl);
-        $data = $this->addInfo($data, 'request/message/parts/picture/url', $pictureUrl);
-        $data = $this->addInfo($data, 'request/message/parts/uploads', $upload);
-        $data = $this->addInfo($data, 'request/message/parts/link', $link);
-
-        return $this->getClient()->post('/users/' . $userToken . '/publish.json', $data);
-    }
-
-    /**
-     * @param string $userToken
-     * @param array  $providers where to post picture
-     * @param string $uri       picture uri
-     * @param string $caption
-     * @param string $target
-     *
-     * @return \Oneall\Client\Response
-     */
-    public function pushPicture($userToken, array $providers, $uri, $caption = '', $target = '')
-    {
-        $data = [
-            'request' => [
-                'message' => [
-                    'action' => 'push_picture',
-                    'parts' => [
-                        'picture' => [
-                            'url' => $uri,
-                            'caption' => $caption,
-                            'target' => $target,
-                        ],
-                    ],
-                    'providers' => $providers
-                ]
-            ]
-        ];
-
-        return $this->getClient()->post('/users/' . $userToken . '/publish.json', $data);
-    }
-
-    /**
-     * @param string $userToken
-     * @param array  $providers
-     * @param string $uri
-     * @param string $caption
-     *
-     * @return \Oneall\Client\Response
-     */
-    public function pushVideo($userToken, array $providers, $uri, $caption = '')
-    {
-        $data = [
-            'request' => [
-                'message' => [
-                    'action' => 'push_video',
-                    'parts' => [
-                        'picture' => [
-                            'url' => $uri,
-                            'caption' => $caption
-                        ],
-                    ],
-                    'providers' => $providers
-                ]
-            ]
-        ];
-
-        return $this->getClient()->post('/users/' . $userToken . '/publish.json', $data);
     }
 }

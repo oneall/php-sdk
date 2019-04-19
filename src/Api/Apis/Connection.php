@@ -64,15 +64,15 @@ class Connection extends AbstractApi
     /**
      * Read Connection Details
      *
-     * @param string $token
+     * @param string $connection_token
      *
      * @see http://docs.oneall.com/api/resources/connections/read-connection-details/
      *
      * @return \Oneall\Client\Response
      */
-    public function get($token)
+    public function get($connection_token)
     {
-        $response = $this->getClient()->get('/connections/' . $token . '.json');
+        $response = $this->getClient()->get('/connections/' . $connection_token . '.json');
 
         return $response;
     }

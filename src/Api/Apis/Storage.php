@@ -33,9 +33,8 @@ use Oneall\Api\AbstractApi;
  */
 class Storage extends AbstractApi
 {
-
     const MODE_UPDATE_REPLACE = 'replace';
-    const MODE_UPDATE_APPEND  = 'append';
+    const MODE_UPDATE_APPEND = 'append';
 
     /**
      * @return string
@@ -51,7 +50,7 @@ class Storage extends AbstractApi
      * @param string $externalId
      * @param string $login
      * @param string $password
-     * @param array  $identity
+     * @param array  $identity All additional user information. http://docs.oneall.com/api/basic/identity-structure/
      *
      * @see http://docs.oneall.com/api/resources/storage/users/create-user/
      *
@@ -62,7 +61,8 @@ class Storage extends AbstractApi
         $externalId = null,
         $login = null,
         $password = null
-    ) {
+    )
+    {
         $data = [
             "request" => [
                 "user" => [
@@ -85,7 +85,7 @@ class Storage extends AbstractApi
      * @param mixed  $externalId
      * @param string $login
      * @param string $password
-     * @param array  $identity
+     * @param array  $identity All additional user information. http://docs.oneall.com/api/basic/identity-structure/
      * @param string $mode
      *
      * @see http://docs.oneall.com/api/resources/storage/users/update-user/
@@ -94,13 +94,13 @@ class Storage extends AbstractApi
      */
     public function updateUser(
         $userToken,
+        array $identity = [],
         $externalId = null,
         $login = null,
         $password = null,
-        array $identity = [],
         $mode = self::MODE_UPDATE_REPLACE
-    ) {
-
+    )
+    {
         if (empty($externalId) && empty($login) && empty($password) && empty($identity))
         {
             return null;
@@ -136,7 +136,7 @@ class Storage extends AbstractApi
         $data = [
             "request" => [
                 "user" => [
-                    "externalid" => $externalId,
+                    "externalid" => $externalId
                 ]
             ]
         ];
@@ -158,7 +158,7 @@ class Storage extends AbstractApi
         $data = [
             "request" => [
                 "user" => [
-                    "externalid" => $externalId,
+                    "externalid" => $externalId
                 ]
             ]
         ];
@@ -189,5 +189,121 @@ class Storage extends AbstractApi
         $data = $this->addInfo($data, 'request/user/password', $password);
 
         return $this->getClient()->post('/storage/users/user/lookup.json', $data);
+    }
+
+    /**
+     * Synchronize (create or update automatically) a user by his/her user token
+     *
+     * @param string $userToken
+     * @param mixed  $externalId
+     * @param string $login
+     * @param string $password
+     * @param array  $identity All additional user information. http://docs.oneall.com/api/basic/identity-structure/
+     *
+     * @see http://docs.oneall.com/api/resources/storage/users/synchronize-user/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function synchronizeByUserToken($userToken,
+        array $identity = [],
+        $externalId = null,
+        $login = null,
+        $password = null)
+    {
+        $data = [
+            "request" => [
+                "synchronize" => [
+                    "identifier" => [
+                        "field" => "user_token",
+                        "value" => $userToken
+                    ],
+                    "user" => []
+                ]
+            ]
+        ];
+
+        $data = $this->addInfo($data, 'request/synchronize/user/externalid', $externalId);
+        $data = $this->addInfo($data, 'request/synchronize/user/login', $login);
+        $data = $this->addInfo($data, 'request/synchronize/user/password', $password);
+        $data = $this->addInfo($data, 'request/synchronize/user/identity', $identity);
+
+        return $this->getClient()->put('/storage/users/user/synchronize.json', $data);
+    }
+
+    /**
+     * Synchronize (create or update automatically) a user by his/her user token
+     *
+     * @param string $externalId
+     * @param string $login
+     * @param string $password
+     * @param array  $identity All additional user information. http://docs.oneall.com/api/basic/identity-structure/
+     *
+     * @see http://docs.oneall.com/api/resources/storage/users/synchronize-user/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function synchronizeByExternalId($old_externalId,
+        array $identity = [],
+        $externalId = null,
+        $login = null,
+        $password = null)
+    {
+        $data = [
+            "request" => [
+                "synchronize" => [
+                    "identifier" => [
+                        "field" => "externalid",
+                        "value" => $old_externalId
+                    ],
+                    "user" => []
+                ]
+            ]
+        ];
+
+        $data = $this->addInfo($data, 'request/synchronize/user/externalid', $externalId);
+        $data = $this->addInfo($data, 'request/synchronize/user/login', $login);
+        $data = $this->addInfo($data, 'request/synchronize/user/password', $password);
+        $data = $this->addInfo($data, 'request/synchronize/user/identity', $identity);
+
+        return $this->getClient()->put('/storage/users/user/synchronize.json', $data);
+    }
+
+    /**
+     * Synchronize (create or update automatically) a user by his/her user token
+     *
+     * @param string $login
+     * @param mixed  $externalId
+     * @param string $login
+     * @param string $password
+     * @param array  $identity All additional user information. http://docs.oneall.com/api/basic/identity-structure/
+     *
+     * @see http://docs.oneall.com/api/resources/storage/users/synchronize-user/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function synchronizeByLogin($old_login,
+        array $identity = [],
+        $externalId = null,
+        $login = null,
+        $password = null)
+    {
+        $data = [
+            "request" => [
+                "synchronize" => [
+                    "identifier" => [
+                        "field" => "login",
+                        "value" => $old_login
+                    ],
+                    "user" => []
+                ]
+            ]
+        ];
+
+        $data = $this->addInfo($data, 'request/synchronize/user/externalid', $externalId);
+        $data = $this->addInfo($data, 'request/synchronize/user/login', $login);
+        $data = $this->addInfo($data, 'request/synchronize/user/password', $password);
+        $data = $this->addInfo($data, 'request/synchronize/user/identity', $identity);
+
+        return $this->getClient()->put('/storage/users/user/synchronize.json', $data);
     }
 }
