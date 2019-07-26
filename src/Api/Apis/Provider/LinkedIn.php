@@ -46,6 +46,23 @@ class LinkedIn extends AbstractApi
     // ****************
 
     /**
+     *  User Posts
+     *
+     * @param string $identityToken
+     *
+     * @see http://docs.oneall.com/api/resources/pull/linkedin/company/posts/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pullPost($identityToken, $num_posts = 50, $page = 1)
+    {
+        $data = '?num_posts=' . $num_posts;
+        $data .= !empty($page) && is_int($page) ? '&page=' . $page : '';
+
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/linkedin/posts.json' . $data);
+    }
+
+    /**
      * Pull Companies
      *
      * @param string $identityToken
@@ -56,7 +73,7 @@ class LinkedIn extends AbstractApi
      */
     public function pullCompanies($identityToken)
     {
-        return $this->getClient()->get('/pull/identities/' . $identityToken . '/linkedin/companies.json' . $data);
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/linkedin/companies.json');
     }
 
     /**

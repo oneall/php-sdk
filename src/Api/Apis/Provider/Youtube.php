@@ -52,7 +52,7 @@ class Youtube extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function getVideos($identityToken)
+    public function pullVideos($identityToken)
     {
         return $this->getClient()->get('/pull/identities/' . $identityToken . '/youtube/videos.json');
     }
@@ -71,7 +71,7 @@ class Youtube extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function publishVideos(
+    public function pushVideos(
         $identityToken,
         $videoUrl,
         $title,

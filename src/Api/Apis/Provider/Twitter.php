@@ -127,7 +127,7 @@ class Twitter extends AbstractApi
      *
      * @return \Oneall\Client\Response
      */
-    public function pushTweet($identityToken, $message, array $picturesIds = [])
+    public function pushTweet($identityToken, $message, array $picturesIds = [], string $location = null)
     {
         $data = [
             "request" => [
@@ -139,6 +139,9 @@ class Twitter extends AbstractApi
                 ]
             ]
         ];
+
+        // adding location if existing
+        $data = $this->addInfo($data, 'request/push/post/location', $location);
 
         return $this->getClient()->post('/push/identities/' . $identityToken . '/twitter/post.json', $data);
     }
@@ -199,5 +202,32 @@ class Twitter extends AbstractApi
         $this->addInfo($data, 'request/push/video/callback_url', $callback_url);
 
         return $this->getClient()->post('/push/identities/' . $identityToken . '/twitter/video.json', $data);
+    }
+
+    // ****************
+    // Search API
+    // ****************
+
+    /**
+     * Search Tweets On Twitter
+     *
+     * @param int $num_tweets
+     * @param string $after_tweet_id
+     * @param string $only_tweet_id
+     *
+     * @see http://docs.oneall.com/api/resources/search/twitter/tweets/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function searchTweets($search_text = '', $num_tweets = 50, $until_tweet_id = null, $after_tweet_id = null, $result_type = "mixed", $language = null)
+    {
+        $data = '?search_text=' . urlencode($search_text);
+        $data .= !empty($num_tweets) ? '&num_tweets=' . $num_tweets : '';
+        $data .= !empty($after_tweet_id) ? '&after_tweet_id=' . $after_tweet_id : '';
+        $data .= !empty($until_tweet_id) ? '&until_tweet_id=' . $until_tweet_id : '';
+        $data .= !empty($language) ? '&language=' . $language : '';
+        $data .= !empty($result_type) ? '&result_type=' . $result_type : 'mixed';
+
+        return $this->getClient()->get('/search/twitter/tweets.json' . $data);
     }
 }

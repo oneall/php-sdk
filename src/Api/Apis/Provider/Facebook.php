@@ -69,6 +69,26 @@ class Facebook extends AbstractApi
     }
 
     /**
+     * Facebook \ List Page Posts
+     *
+     * @param string $identityToken
+     * @param int $num_posts
+     * @param int $page
+     * @param boolean $limit_own_posts
+     *
+     * @see http://docs.oneall.com/api/resources/pull/facebook/posts/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pullPagePosts($identityToken, $pageId, $num_posts = 50, $page = 1)
+    {
+        $data = '?num_posts=' . $num_posts;
+        $data .= !empty($page) && is_int($page) ? '&page=' . $page : '';
+
+        return $this->getClient()->get('/pull/identities/' . $identityToken . '/facebook/page/' . $pageId . '/posts.json' . $data);
+    }
+
+    /**
      * Facebook \ List Pages
      *
      * @see http://docs.oneall.com/api/resources/pull/facebook/pages/
@@ -106,6 +126,35 @@ class Facebook extends AbstractApi
         return $this->getClient()->get('/pull/identities/' . $identityToken . '/facebook/likes.json' . $data);
     }
 
+    /**
+     * Upload Picture To facebook
+     *
+     * @param string $identityToken
+     * @param string $url
+     * @param string $description
+     *
+     * @see http://docs.oneall.com/api/resources/push/facebook/picture/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pushPicture($identityToken, $url, $description = null)
+    {
+        $data = [
+            "request" => [
+                "push" => [
+                    'picture' => [
+                        'url' => $url
+                    ]
+                ]
+            ]
+        ];
+
+        // adding picture description if set
+        $this->addInfo($data, 'request/push/picture/description', $description);
+
+        return $this->getClient()->post('/push/identities/' . $identityToken . '/facebook/picture.json', $data);
+    }
+
     // ****************
     // Push API
     // ****************
@@ -114,8 +163,8 @@ class Facebook extends AbstractApi
      * Publish page post
      *
      * @param string $identityToken
-     * @param string $message
-     * @param array  $picturesIds array of picture id. See self::pushPicture() to upload picture and get their id.
+     * @param string $url
+     * @param string $description
      *
      * @see http://docs.oneall.com/api/resources/push/facebook/page/post/
      *
@@ -139,5 +188,36 @@ class Facebook extends AbstractApi
         $data = $this->addInfo($data, 'request/push/page/link', $link);
 
         return $this->getClient()->post('/push/identities/' . $identityToken . '/facebook/page/post.json', $data);
+    }
+
+    /**
+     * Publish page picture
+     *
+     * @param string $identityToken
+     * @param string $pageId
+     * @param string $url
+     * @param string $description
+     *
+     * @see http://docs.oneall.com/api/resources/push/facebook/page/picture/
+     *
+     * @return \Oneall\Client\Response
+     */
+    public function pushPagePicture($identityToken, $pageId, $url, $description = null)
+    {
+        $data = [
+            "request" => [
+                "push" => [
+                    'page' => [
+                        'id' => $pageId,
+                        'url' => $url
+                    ]
+                ]
+            ]
+        ];
+
+        // adding description if set
+        $data = $this->addInfo($data, 'request/push/page/description', $description);
+
+        return $this->getClient()->post('/push/identities/' . $identityToken . '/facebook/page/picture.json', $data);
     }
 }
